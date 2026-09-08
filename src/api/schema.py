@@ -22,3 +22,28 @@ class OptimizeResponse(BaseModel):
     status: str
     proposed_references: Optional[List[Dict[str, Any]]] = None
     reasoning_steps: List[str] = []
+
+from src.schemas.perspective import Answer, PerspectiveBrief
+
+class StartInterviewRequest(BaseModel):
+    topic: str
+    tone: str
+
+class ProbeInterviewRequest(BaseModel):
+    topic: str
+    tone: str
+    answers: List[Answer]
+
+class FinishInterviewRequest(BaseModel):
+    topic: str
+    tone: str
+    answers: List[Answer]
+    was_probed: Optional[bool] = False
+
+class FinishInterviewResponse(BaseModel):
+    brief_id: str
+    brief: PerspectiveBrief
+
+class LiveContextRequest(BaseModel):
+    topic: str
+    thesis: str
