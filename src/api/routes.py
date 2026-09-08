@@ -96,7 +96,7 @@ def api_finish_interview(request: FinishInterviewRequest):
     try:
         brief = finish_interview(USER_ID, request.topic, request.answers, request.tone)
         brief_id = save_brief(USER_ID, brief, request.answers, request.was_probed)
-        return FinishInterviewResponse(brief_id=brief_id, brief=brief)
+        return FinishInterviewResponse(brief_id=str(brief_id), brief=brief)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
