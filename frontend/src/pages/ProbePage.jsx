@@ -4,7 +4,15 @@ import { finishInterview } from '../services/api';
 
 export const ProbePage = () => {
   const { topic, tone, answers, probeQuestions, setAnswers, setBrief, setBriefId, setPhase } = useWorkflow();
-  const [probeAnswers, setProbeAnswers] = useState({});
+  const [probeAnswers, setProbeAnswers] = useState(() => {
+    const initial = {};
+    if (answers && answers.length > 0) {
+      answers.forEach(a => {
+        initial[a.question_id] = a;
+      });
+    }
+    return initial;
+  });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
 
@@ -16,11 +24,15 @@ export const ProbePage = () => {
   };
 
   const getFinalAnswerList = () => {
+    const probeIds = probeQuestions.map(q => q.id);
+    const baseAnswers = answers.filter(a => !probeIds.includes(a.question_id));
+    
     const newAnswers = probeQuestions.map(q => {
       const ans = probeAnswers[q.id];
       return ans || { question_id: q.id, question_text: q.text, answer: '' };
     });
-    return [...answers, ...newAnswers];
+    
+    return [...baseAnswers, ...newAnswers];
   };
 
   const finalizeInterview = async (answerList, wasProbed) => {
@@ -92,7 +104,15 @@ export const ProbePage = () => {
           disabled={isSubmitting}
           className="w-2/3 bg-blue-600 text-white font-medium py-2 px-4 rounded hover:bg-blue-700 disabled:opacity-50 transition-colors flex justify-center items-center"
         >
-          {isSubmitting ? 'Loading...' : 'Continue'}
+          {isSubmitting ? (
+            <>
+              <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              Building your perspective brief...
+            </>
+          ) : 'Continue'}
         </button>
       </div>
     </div>

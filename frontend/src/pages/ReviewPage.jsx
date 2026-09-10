@@ -113,16 +113,56 @@ export const ReviewPage = () => {
     });
   };
 
+  const getActiveIndex = () => {
+    if (['pre_flight', 'research', 'review_research'].includes(currentNode)) return 1;
+    if (['generate', 'generate_hooks'].includes(currentNode)) return 2;
+    if (['evaluate', 'sync_evaluation'].includes(currentNode)) return 3;
+    if (['fix_facts', 'fix_hook', 'fix_flow', 'finalize'].includes(currentNode)) return 4;
+    if (graphState?.iteration > 0) return 4;
+    return 0; 
+  };
+
   if (isStreaming || (graphState && graphState.status === 'in_progress') || isResuming) {
+    const activeIndex = getActiveIndex();
+    const checkpoints = [
+      { label: "Understanding your perspective" },
+      { label: "Checking relevant context" },
+      { label: "Drafting your post" },
+      { label: "Reviewing the draft" },
+      { label: "Polishing the final version" }
+    ];
+
     return (
-      <div className="max-w-4xl mx-auto py-16 px-4 text-center">
-        <svg className="animate-spin mx-auto h-12 w-12 text-blue-600 mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-        </svg>
-        <h2 className="text-2xl font-semibold mb-2">Agents are working...</h2>
-        <p className="text-gray-600">Current Node: <span className="font-mono bg-gray-100 px-2 py-1 rounded text-sm">{currentNode || 'initializing'}</span></p>
-        <p className="text-gray-500 text-sm mt-2">{currentStep}</p>
+      <div className="max-w-4xl mx-auto py-16 px-4">
+        <h2 className="text-2xl font-semibold mb-8 text-center">Working on your post</h2>
+        <div className="max-w-md mx-auto bg-gray-50 p-6 rounded-lg border border-gray-200 shadow-sm">
+          <ul className="space-y-4">
+            {checkpoints.map((cp, idx) => {
+              let icon = <span className="text-gray-300 font-bold">○</span>;
+              let textColor = "text-gray-400";
+              
+              if (idx < activeIndex) {
+                icon = <span className="text-green-500 font-bold">✓</span>;
+                textColor = "text-gray-800";
+              } else if (idx === activeIndex) {
+                icon = (
+                  <svg className="animate-spin h-4 w-4 text-blue-600 inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                );
+                textColor = "text-blue-700 font-medium";
+              }
+
+              return (
+                <li key={idx} className={`flex items-center space-x-3 ${textColor}`}>
+                  <div className="w-5 flex justify-center">{icon}</div>
+                  <span>{cp.label}</span>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
       </div>
     );
   }

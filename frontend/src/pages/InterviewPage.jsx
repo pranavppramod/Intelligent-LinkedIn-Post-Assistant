@@ -3,8 +3,16 @@ import { useWorkflow } from '../context/WorkflowContext';
 import { probeInterview, finishInterview } from '../services/api';
 
 export const InterviewPage = () => {
-  const { topic, tone, questions, setAnswers, setProbeQuestions, setBrief, setBriefId, setPhase } = useWorkflow();
-  const [currentAnswers, setCurrentAnswers] = useState({});
+  const { topic, tone, questions, answers, setAnswers, probeQuestions, setProbeQuestions, setBrief, setBriefId, setPhase } = useWorkflow();
+  const [currentAnswers, setCurrentAnswers] = useState(() => {
+    const initial = {};
+    if (answers && answers.length > 0) {
+      answers.forEach(a => {
+        initial[a.question_id] = a;
+      });
+    }
+    return initial;
+  });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
 
@@ -16,10 +24,15 @@ export const InterviewPage = () => {
   };
 
   const getAnswerList = () => {
-    return questions.map(q => {
+    const baseIds = questions.map(q => q.id);
+    const baseAnswers = questions.map(q => {
       const ans = currentAnswers[q.id];
       return ans || { question_id: q.id, question_text: q.text, answer: '' };
     });
+    
+    const probeIds = new Set(probeQuestions ? probeQuestions.map(q => q.id) : []);
+    const extraAnswers = Object.values(currentAnswers).filter(a => probeIds.has(a.question_id));
+    return [...baseAnswers, ...extraAnswers];
   };
 
   const handleContinue = async () => {
@@ -62,8 +75,13 @@ export const InterviewPage = () => {
     }
   };
 
-  const filledCount = Object.values(currentAnswers).filter(a => a.answer.trim() !== '').length;
-  const progressPercent = questions.length > 0 ? (filledCount / questions.length) * 100 : 0;
+  const totalQuestions = questions.length + (probeQuestions ? probeQuestions.length : 0);
+  const validIds = new Set([
+    ...questions.map(q => q.id),
+    ...(probeQuestions ? probeQuestions.map(q => q.id) : [])
+  ]);
+  const filledCount = Object.values(currentAnswers).filter(a => validIds.has(a.question_id) && a.answer.trim() !== '').length;
+  const progressPercent = totalQuestions > 0 ? Math.min((filledCount / totalQuestions) * 100, 100) : 0;
 
   return (
     <div className="max-w-4xl mx-auto py-8 px-4">
@@ -77,7 +95,7 @@ export const InterviewPage = () => {
         <div className="w-full bg-gray-200 rounded-full h-2.5 mb-1">
           <div className="bg-blue-600 h-2.5 rounded-full transition-all" style={{ width: `${progressPercent}%` }}></div>
         </div>
-        {filledCount} of {questions.length} answered
+        {filledCount} of {totalQuestions} answered
       </div>
 
       <div className="space-y-6 mb-8">
@@ -106,16 +124,24 @@ export const InterviewPage = () => {
         <button
           onClick={handleSkip}
           disabled={isSubmitting}
-          className="w-1/4 bg-gray-100 text-gray-800 border border-gray-300 py-2 px-4 rounded hover:bg-gray-200 disabled:opacity-50 transition-colors"
+          className="w-1/4 bg-gray-100 text-gray-800 border border-gray-300 py-2 px-4 rounded hover:bg-gray-200 disabled:opacity-50 transition-colors flex justify-center items-center"
         >
-          Skip to brief
+          {isSubmitting ? 'Skipping...' : 'Skip to brief'}
         </button>
         <button
           onClick={handleContinue}
           disabled={isSubmitting}
           className="w-3/4 bg-blue-600 text-white font-medium py-2 px-4 rounded hover:bg-blue-700 disabled:opacity-50 transition-colors flex justify-center items-center"
         >
-          {isSubmitting ? 'Loading...' : 'Continue'}
+          {isSubmitting ? (
+            <>
+              <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              Looking for areas worth exploring...
+            </>
+          ) : 'Continue'}
         </button>
       </div>
     </div>

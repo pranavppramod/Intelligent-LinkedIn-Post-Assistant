@@ -28,9 +28,7 @@ export const ResultPage = () => {
     <div className="max-w-5xl mx-auto py-8 px-4">
       <div className="flex justify-between items-center mb-6">
         <div>
-          {passesFaithfulness ? (
-            <div className="bg-green-100 text-green-800 px-4 py-2 rounded font-medium inline-block mb-2">Done</div>
-          ) : (
+          {!passesFaithfulness && (
             <div className="bg-red-100 text-red-800 px-4 py-2 rounded font-medium mb-2">
               No draft passed the faithfulness check. This post contains material not supported by your brief — review every specific claim before publishing.
             </div>
@@ -46,7 +44,7 @@ export const ResultPage = () => {
           onClick={resetWorkflow}
           className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
         >
-          Write another
+          Write another post
         </button>
       </div>
 
@@ -85,12 +83,6 @@ export const ResultPage = () => {
             className={`py-4 px-1 border-b-2 font-medium text-sm ${activeTab === 'eval' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700'}`}
           >
             📊 Evaluation
-          </button>
-          <button 
-            onClick={() => setActiveTab('scores')}
-            className={`py-4 px-1 border-b-2 font-medium text-sm ${activeTab === 'scores' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700'}`}
-          >
-            📈 Scores
           </button>
         </nav>
       </div>
@@ -222,20 +214,6 @@ export const ResultPage = () => {
               </div>
             </div>
           )}
-        </div>
-      )}
-
-      {activeTab === 'scores' && (
-        <div>
-           {evaluation.scores && Object.entries(evaluation.scores).map(([metric, data]) => (
-             <div key={metric} className="mb-4 bg-white border rounded p-4">
-               <div className="flex justify-between items-center mb-2">
-                 <span className="font-bold capitalize">{metric}</span>
-                 <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded text-sm">{data.score}/10</span>
-               </div>
-               <p className="text-sm text-gray-600">{data.observation}</p>
-             </div>
-           ))}
         </div>
       )}
     </div>
