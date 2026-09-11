@@ -133,35 +133,37 @@ export const ReviewPage = () => {
     ];
 
     return (
-      <div className="max-w-4xl mx-auto py-16 px-4">
-        <h2 className="text-2xl font-semibold mb-8 text-center">Working on your post</h2>
-        <div className="max-w-md mx-auto bg-gray-50 p-6 rounded-lg border border-gray-200 shadow-sm">
-          <ul className="space-y-4">
-            {checkpoints.map((cp, idx) => {
-              let icon = <span className="text-gray-300 font-bold">○</span>;
-              let textColor = "text-gray-400";
-              
-              if (idx < activeIndex) {
-                icon = <span className="text-green-500 font-bold">✓</span>;
-                textColor = "text-gray-800";
-              } else if (idx === activeIndex) {
-                icon = (
-                  <svg className="animate-spin h-4 w-4 text-blue-600 inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                  </svg>
-                );
-                textColor = "text-blue-700 font-medium";
-              }
+      <div className="max-w-3xl mx-auto py-16 md:py-24 w-full flex flex-col items-center justify-center min-h-[60vh]">
+        <div className="w-full max-w-md">
+          <p className="text-metadata text-ink-muted mb-6 text-center">Working on your post</p>
+          <div className="bg-surface border border-border rounded-card p-8 md:p-10 shadow-quiet">
+            <ul className="space-y-6">
+              {checkpoints.map((cp, idx) => {
+                let icon = <span className="w-5 h-5 rounded-full border border-ink-muted/30 flex items-center justify-center text-[10px] text-transparent transition-colors">✓</span>;
+                let textColor = "text-ink-muted";
+                
+                if (idx < activeIndex) {
+                  icon = <span className="w-5 h-5 rounded-full border border-success bg-success flex items-center justify-center text-[10px] text-surface transition-colors">✓</span>;
+                  textColor = "text-ink";
+                } else if (idx === activeIndex) {
+                  icon = (
+                    <svg className="animate-spin h-5 w-5 text-graphite" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                  );
+                  textColor = "text-ink font-medium";
+                }
 
-              return (
-                <li key={idx} className={`flex items-center space-x-3 ${textColor}`}>
-                  <div className="w-5 flex justify-center">{icon}</div>
-                  <span>{cp.label}</span>
-                </li>
-              );
-            })}
-          </ul>
+                return (
+                  <li key={idx} className={`flex items-center gap-4 ${textColor} transition-all duration-300`}>
+                    <div className="flex-shrink-0 flex items-center justify-center w-5">{icon}</div>
+                    <span className="text-[15px]">{cp.label}</span>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
         </div>
       </div>
     );
@@ -173,40 +175,54 @@ export const ReviewPage = () => {
   if (graphState.status === 'awaiting_research_review') {
     const proposed = graphState.proposed_references || [];
     return (
-      <div className="max-w-4xl mx-auto py-8 px-4">
-        <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
-          <p className="text-yellow-800 font-medium">⏸️ Research Phase: The AI retrieved external references for verification.</p>
+      <div className="max-w-3xl mx-auto py-8 md:py-12 w-full">
+        <div className="mb-16">
+          <p className="text-metadata text-ink-muted mb-4">Step 5 / Optional Context</p>
+          <h2 className="text-hero text-ink mb-8">Review the<br/>sources.</h2>
+          <div className="border-b border-border pb-6">
+            <p className="text-[13px] text-ink-secondary font-medium tracking-wide uppercase">These references were found to support the post.</p>
+          </div>
         </div>
-        <h2 className="text-2xl font-bold mb-4">Step 3.5 — Review Retrieved Facts</h2>
         
         {proposed.length === 0 ? (
-          <div>
-            <p className="mb-4">No external references found matching the criteria.</p>
-            <button onClick={handleDiscardResearch} className="bg-blue-600 text-white px-4 py-2 rounded">Continue to Generator</button>
+          <div className="bg-surface border border-border p-8 md:p-12 rounded-card text-center mb-12 shadow-quiet">
+            <p className="text-[15px] text-ink-secondary mb-8">No external references found matching the criteria.</p>
+            <div className="flex justify-center">
+              <button onClick={handleDiscardResearch} className="bg-graphite text-surface px-8 py-4 rounded-button font-semibold text-[15px] hover:-translate-y-[1px] hover:shadow-soft transition-all shadow-quiet">Continue to Draft</button>
+            </div>
           </div>
         ) : (
           <div>
-            <p className="mb-4 font-medium">Select the sources and data points to include in the ground truth:</p>
-            <div className="space-y-4 mb-6">
-              {proposed.map((ref, idx) => (
-                <label key={idx} className="flex items-start space-x-3 bg-white p-4 border rounded cursor-pointer">
-                  <input 
-                    type="checkbox" 
-                    className="mt-1" 
-                    checked={selectedResearchIndices.includes(idx)}
-                    onChange={() => toggleResearchSelection(idx)}
-                  />
-                  <div>
-                    <p className="font-bold text-sm">{ref.title}</p>
-                    <p className="text-sm text-gray-600 my-1">{ref.snippet}</p>
-                    <p className="text-xs text-gray-400 italic">Source: {ref.url}</p>
-                  </div>
-                </label>
-              ))}
+            <div className="space-y-4 mb-16">
+              {proposed.map((ref, idx) => {
+                const isSelected = selectedResearchIndices.includes(idx);
+                return (
+                  <label key={idx} className={`flex items-start gap-4 p-6 rounded-card border cursor-pointer transition-all focus-within:ring-2 focus-within:ring-ink/20 focus-within:outline-none ${isSelected ? 'bg-selected border-selected shadow-sm' : 'bg-surface border-border hover:bg-surface-muted shadow-quiet'}`}>
+                    <input 
+                      type="checkbox" 
+                      className="sr-only" 
+                      checked={isSelected}
+                      onChange={() => toggleResearchSelection(idx)}
+                    />
+                    <div className={`mt-0.5 w-5 h-5 rounded border flex-shrink-0 flex items-center justify-center transition-colors ${isSelected ? 'border-graphite bg-graphite' : 'border-ink-muted'}`}>
+                      {isSelected && (
+                        <svg className="w-3 h-3 text-surface" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                        </svg>
+                      )}
+                    </div>
+                    <div>
+                      <p className="font-semibold text-[15px] text-ink mb-1.5">{ref.title}</p>
+                      <p className="text-[14px] text-ink-secondary leading-relaxed mb-3">{ref.snippet}</p>
+                      <a href={ref.url} target="_blank" rel="noreferrer" className="text-[12px] uppercase tracking-widest font-medium text-ink-muted hover:text-ink transition-colors" onClick={(e) => e.stopPropagation()}>Source Link ↗</a>
+                    </div>
+                  </label>
+                );
+              })}
             </div>
-            <div className="flex gap-4">
-              <button onClick={handleApproveResearch} className="bg-blue-600 text-white px-4 py-2 rounded">✅ Approve Selected & Inject</button>
-              <button onClick={handleDiscardResearch} className="bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded">❌ Discard All Research</button>
+            <div className="flex flex-col-reverse sm:flex-row gap-4 border-t border-border pt-12">
+              <button onClick={handleDiscardResearch} className="w-full sm:w-1/3 bg-transparent border border-border text-ink-secondary font-sans font-semibold text-[15px] py-4 px-6 rounded-button hover:bg-surface-muted transition-colors flex justify-center items-center">Discard Sources</button>
+              <button onClick={handleApproveResearch} className="w-full sm:w-2/3 bg-graphite text-surface font-sans font-semibold text-[15px] py-4 px-6 rounded-button hover:-translate-y-[1px] hover:shadow-soft transition-all shadow-quiet flex justify-center items-center">Approve & Inject Context</button>
             </div>
           </div>
         )}
@@ -218,38 +234,53 @@ export const ReviewPage = () => {
   if (graphState.status === 'awaiting_post_approval') {
     const verdict = graphState.verdict || {};
     return (
-      <div className="max-w-4xl mx-auto py-8 px-4">
-        <p className="text-gray-500 mb-2">Step 4 — Human Review</p>
-        <h2 className="text-2xl font-bold mb-4">Approve or Revise</h2>
-        <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
-          <p className="text-yellow-800 font-medium">⏸️ Autonomous routing paused. The draft is ready for your review.</p>
+      <div className="max-w-3xl mx-auto py-8 md:py-12 w-full">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+          <div>
+            <p className="text-metadata text-ink-muted mb-4">Step 6 / Final Review</p>
+            <h2 className="text-hero text-ink mb-2">The Draft.</h2>
+          </div>
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-[12px] text-ink-muted uppercase tracking-widest font-medium md:border-l border-border md:pl-6 pb-2">
+             <div>Draft <span className="text-ink">#{graphState.iteration || 0}</span></div>
+             <div>Craft <span className="text-ink">{verdict.craft_score || 0}/10</span></div>
+             <div>Truth <span className="text-ink">{verdict.faithfulness || 0}/10</span></div>
+          </div>
         </div>
         
-        <p className="text-sm text-gray-500 mb-4">
-          Draft #{graphState.iteration || 0} | Craft Score: {verdict.craft_score || 0}/10 | Faithfulness: {verdict.faithfulness || 0}/10
-        </p>
+        {verdict.unsupported_claims && verdict.unsupported_claims.length > 0 && (
+          <div className="bg-warning/10 border border-warning/20 p-6 md:p-8 rounded-card mb-12 shadow-sm">
+            <p className="text-[15px] font-semibold text-warning mb-4">Unsupported Claims Detected</p>
+            <ul className="space-y-3">
+               {verdict.unsupported_claims.map((claim, idx) => (
+                  <li key={idx} className="text-[14px] text-warning/90 leading-relaxed flex items-start gap-3"><span className="opacity-50 mt-1">•</span><span>{claim}</span></li>
+               ))}
+            </ul>
+          </div>
+        )}
         
-        <label className="block font-medium mb-2">Best Draft So Far (Edit directly, or request AI revisions below):</label>
-        <textarea 
-          className="w-full h-80 border border-gray-300 rounded p-4 mb-6 text-sm font-sans focus:ring-2 focus:ring-blue-500 focus:outline-none"
-          value={draftEdits}
-          onChange={e => setDraftEdits(e.target.value)}
-        />
+        <div className="mb-16">
+          <textarea 
+            className="w-full h-[500px] bg-surface border border-border rounded-card p-8 md:p-12 text-[17px] text-ink leading-[1.7] font-sans focus:outline-none focus:border-ink/30 shadow-quiet resize-y transition-colors"
+            value={draftEdits}
+            onChange={e => setDraftEdits(e.target.value)}
+          />
+        </div>
 
-        <div className="bg-gray-50 p-6 rounded border border-gray-200">
-          <label className="block font-medium mb-2">Request AI revisions (e.g., 'Make it punchier', 'Fix the ending'):</label>
+        <div className="bg-surface border border-border p-8 md:p-10 rounded-card shadow-quiet">
+          <p className="text-metadata text-ink-muted mb-4">Request AI Revisions</p>
           <input 
             type="text" 
-            className="w-full border border-gray-300 rounded p-2 mb-4"
+            placeholder="e.g., 'Make it punchier', 'Fix the ending'"
+            className="w-full bg-surface-muted border border-border rounded-control px-6 py-5 mb-8 text-[15px] text-ink focus:outline-none focus:border-ink/30 transition-colors placeholder:text-ink-muted/70"
             value={feedbackInput}
             onChange={e => setFeedbackInput(e.target.value)}
           />
-          <div className="flex gap-4">
-            <button onClick={handleApprovePost} className="w-1/2 bg-blue-600 text-white font-medium py-2 px-4 rounded hover:bg-blue-700">
-              ✅ Approve & Publish
+          <div className="flex flex-col-reverse sm:flex-row gap-4">
+            <button onClick={handleRevisePost} className="w-full sm:w-1/2 bg-transparent border border-border text-ink-secondary font-sans font-semibold text-[15px] py-4 px-6 rounded-button hover:bg-surface-muted transition-colors flex justify-center items-center">
+              Route to AI Repair
             </button>
-            <button onClick={handleRevisePost} className="w-1/2 bg-white border border-gray-300 text-gray-800 font-medium py-2 px-4 rounded hover:bg-gray-50">
-              🔄 Route to Repair Agents
+            <button onClick={handleApprovePost} className="w-full sm:w-1/2 bg-graphite text-surface font-sans font-semibold text-[15px] py-4 px-6 rounded-button hover:-translate-y-[1px] hover:shadow-soft transition-all flex justify-center items-center shadow-quiet">
+              Approve & Publish
             </button>
           </div>
         </div>

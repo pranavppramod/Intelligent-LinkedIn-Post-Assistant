@@ -11,13 +11,21 @@ function AppContent() {
   const { phase } = useWorkflow();
 
   return (
-    <div className="min-h-screen bg-white text-gray-900 font-sans">
-      {phase === 'topic' && <TopicPage />}
-      {phase === 'interview' && <InterviewPage />}
-      {phase === 'probe' && <ProbePage />}
-      {phase === 'brief' && <BriefPage />}
-      {phase === 'review' && <ReviewPage />}
-      {phase === 'result' && <ResultPage />}
+    <div className="min-h-screen flex flex-col">
+      {/* Global Header */}
+      <header className="h-[76px] flex items-center px-6 md:px-10 max-w-[1320px] w-full mx-auto">
+        <div className="font-editorial text-[22px] tracking-tight">LinkedInForge</div>
+      </header>
+
+      {/* Main Content Container */}
+      <main className="flex-grow w-full max-w-[1320px] mx-auto px-6 md:px-10 pt-[56px] lg:pt-[80px] pb-24">
+        {phase === 'topic' && <TopicPage />}
+        {phase === 'interview' && <InterviewPage />}
+        {phase === 'probe' && <ProbePage />}
+        {phase === 'brief' && <BriefPage />}
+        {phase === 'review' && <ReviewPage />}
+        {phase === 'result' && <ResultPage />}
+      </main>
     </div>
   );
 }

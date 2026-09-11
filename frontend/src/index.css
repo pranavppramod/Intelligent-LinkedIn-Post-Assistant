@@ -1,1 +1,58 @@
 @import "tailwindcss";
+
+@theme {
+  --color-paper: #F4F3EF;
+  --color-surface: #FBFAF7;
+  --color-surface-muted: #EEEDE9;
+  
+  --color-ink: #25282A;
+  --color-ink-secondary: #777B7B;
+  --color-ink-muted: #999C9B;
+  
+  --color-border: #DEDDD8;
+  --color-selected: #DFE4E5;
+  
+  --color-success: #7D8C89;
+  --color-warning: #A98E62;
+  --color-error: #A4564D;
+  
+  --color-graphite: #2D343A;
+
+  --font-sans: "DM Sans", sans-serif;
+  --font-editorial: "Newsreader", serif;
+
+  --radius-button: 16px;
+  --radius-card: 20px;
+  --radius-pill: 999px;
+  --radius-control: 10px;
+  --radius-option: 13px;
+
+  --shadow-quiet: 0 2px 4px rgba(0, 0, 0, 0.02);
+  --shadow-soft: 0 4px 12px rgba(45, 52, 58, 0.06);
+
+  --container-workspace: 1320px;
+}
+
+@layer base {
+  body {
+    @apply bg-paper text-ink font-sans antialiased;
+  }
+}
+
+@layer utilities {
+  .text-hero {
+    font-family: var(--font-editorial);
+    font-size: clamp(3.4rem, 7vw, 6.6rem);
+    line-height: 0.91;
+    letter-spacing: -0.02em;
+    font-weight: 400;
+  }
+  
+  .text-metadata {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    font-weight: 500;
+  }
+}

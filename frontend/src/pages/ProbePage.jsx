@@ -60,53 +60,60 @@ export const ProbePage = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto py-8 px-4">
-      <p className="text-gray-500 mb-2">One more thing</p>
-      <h2 className="text-2xl font-bold mb-4">A couple of follow-ups</h2>
-      <div className="bg-blue-50 text-blue-800 p-4 rounded mb-6 text-sm">
-        Some answers were a little general. These are the specifics that will keep the post from sounding like everyone else's. Skip any you'd rather not answer.
+    <div className="max-w-3xl mx-auto py-8 md:py-12 w-full">
+      <div className="mb-16">
+        <p className="text-metadata text-ink-muted mb-4">Step 3 / Go a Little Deeper</p>
+        <h2 className="text-hero text-ink mb-8">There's more<br/>here to explore.</h2>
+        <div className="border-b border-border pb-6">
+          <p className="text-[13px] text-ink-secondary font-medium tracking-wide uppercase">{topic}</p>
+        </div>
       </div>
 
-      <div className="space-y-6 mb-8">
-        {probeQuestions.map((q) => (
-          <div key={q.id} className="border border-gray-200 p-4 rounded bg-white">
-            <h3 className="font-semibold mb-1">{q.text}</h3>
-            <div className="bg-yellow-50 text-yellow-800 p-2 mb-3 rounded text-sm">
-              💡 <strong>Tip:</strong> {q.why}
+      <div className="space-y-32 mb-24">
+        {probeQuestions.map((q, idx) => (
+          <div key={q.id} className="relative group">
+            <span className="hidden md:block absolute -left-16 top-2 text-metadata text-ink-muted opacity-40">0{idx + 1}</span>
+            <h3 className="font-editorial text-[32px] md:text-[40px] leading-[1.1] tracking-tight text-ink mb-8">{q.text}</h3>
+            
+            <div className="mb-8">
+              <p className="text-metadata text-ink-muted mb-2">Why this matters</p>
+              <p className="text-[15px] text-ink-secondary leading-relaxed max-w-2xl">{q.why}</p>
             </div>
-            <textarea
-              className="w-full border border-gray-300 rounded p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-              rows={4}
-              placeholder={q.placeholder}
-              value={probeAnswers[q.id]?.answer || ''}
-              onChange={(e) => handleTextChange(q.id, e.target.value, q.text)}
-            ></textarea>
+            
+            <div className="relative">
+              <textarea
+                className="w-full h-[180px] p-6 bg-surface rounded-card shadow-quiet border border-border focus:outline-none focus:border-ink/30 font-sans text-[17px] text-ink placeholder:text-ink-muted/60 resize-none transition-colors"
+                placeholder={q.placeholder}
+                value={probeAnswers[q.id]?.answer || ''}
+                onChange={(e) => handleTextChange(q.id, e.target.value, q.text)}
+              ></textarea>
+            </div>
           </div>
         ))}
       </div>
 
       {error && (
-        <div className="bg-red-50 text-red-700 p-4 rounded mb-4">
+        <div className="bg-error/10 text-error p-4 rounded-control mb-8 text-[15px]">
           {error}
         </div>
       )}
 
-      <div className="flex gap-4">
+      <div className="flex flex-col-reverse sm:flex-row gap-4 border-t border-border pt-12">
         <button
           onClick={handleSkip}
           disabled={isSubmitting}
-          className="w-1/3 bg-gray-100 text-gray-800 border border-gray-300 py-2 px-4 rounded hover:bg-gray-200 disabled:opacity-50 transition-colors"
+          className="w-full sm:w-1/3 bg-transparent text-ink-secondary font-sans font-semibold text-[15px] py-4 px-6 rounded-button border border-border hover:bg-surface-muted transition-all disabled:opacity-50 flex justify-center items-center"
         >
           Skip these
         </button>
         <button
           onClick={handleContinue}
           disabled={isSubmitting}
-          className="w-2/3 bg-blue-600 text-white font-medium py-2 px-4 rounded hover:bg-blue-700 disabled:opacity-50 transition-colors flex justify-center items-center"
+          className="w-full sm:w-2/3 bg-graphite text-surface font-sans font-semibold text-[15px] py-4 px-6 rounded-button hover:-translate-y-[1px] hover:shadow-soft transition-all disabled:opacity-50 disabled:hover:transform-none flex justify-center items-center shadow-quiet"
         >
           {isSubmitting ? (
             <>
-              <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-surface" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
               </svg>

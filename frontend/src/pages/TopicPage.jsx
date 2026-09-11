@@ -63,37 +63,28 @@ export const TopicPage = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto py-8 px-4">
-      <h1 className="text-3xl font-bold mb-2">🚀 LinkedInForge</h1>
-      <p className="text-gray-500 mb-8">Step 1 — what are you writing about?</p>
-
-      <div className="mb-10">
-        <h2 className="text-2xl font-bold mb-4">What do you want to write about?</h2>
+    <div className="flex flex-col lg:flex-row gap-16 lg:gap-24 w-full">
+      {/* PRIMARY WRITING COLUMN */}
+      <div className="flex-1 max-w-3xl">
+        <p className="text-metadata text-ink-muted mb-4">Step 1 / The Idea</p>
+        <h2 className="text-hero mb-6 text-ink">What should we<br/>write about?</h2>
+        <p className="text-[17px] text-ink-secondary mb-12">Bring a point of view. We'll shape the rest.</p>
         
-        <div className="mb-4">
+        <div className="relative mb-8">
           <textarea 
             value={manualTopic}
             onChange={(e) => setManualTopic(e.target.value)}
-            placeholder="Tell me what you're thinking about..."
-            className="w-full h-32 p-4 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 font-sans text-lg resize-none shadow-sm"
+            maxLength={1300}
+            placeholder="Start with a thought, a tension, or a useful detail..."
+            className="w-full h-[240px] p-8 bg-surface rounded-card shadow-quiet border border-border focus:outline-none focus:border-ink/20 font-sans text-[17px] text-ink placeholder:text-ink-muted resize-none transition-colors"
           ></textarea>
-        </div>
-
-        <div className="mb-6">
-          <p className="text-sm text-gray-600 mb-2">Select Post Tone & Vibe:</p>
-          <select 
-            value={tone}
-            onChange={(e) => setTone(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
-          >
-            {TONES.map(t => (
-              <option key={t} value={t}>{t}</option>
-            ))}
-          </select>
+          <div className="absolute bottom-6 right-6 text-[13px] text-ink-muted">
+             {manualTopic.length} / 1,300
+          </div>
         </div>
 
         {startError && (
-          <div className="bg-yellow-50 text-yellow-800 p-4 rounded mb-4 shadow-sm border border-yellow-200">
+          <div className="bg-error/10 text-error p-4 rounded-control mb-6 text-[15px]">
             {startError}
           </div>
         )}
@@ -101,11 +92,11 @@ export const TopicPage = () => {
         <button 
           onClick={() => handleStartInterview(manualTopic)}
           disabled={isStarting}
-          className="w-full bg-blue-600 text-white font-medium py-3 px-4 rounded hover:bg-blue-700 transition-colors disabled:opacity-50 flex justify-center items-center shadow-md text-lg"
+          className="w-full bg-graphite text-surface font-sans font-semibold text-[15px] py-4 px-6 rounded-button hover:-translate-y-[1px] hover:shadow-soft transition-all disabled:opacity-50 disabled:hover:transform-none flex justify-center items-center shadow-quiet"
         >
           {isStarting ? (
             <>
-              <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-surface" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
               </svg>
@@ -115,73 +106,95 @@ export const TopicPage = () => {
             "Start interview"
           )}
         </button>
+
+        <div className="flex flex-wrap gap-8 text-metadata text-ink-muted mt-16 pt-8 border-t border-border/50">
+           <p>Private Draft</p>
+           <p>Autosave On — LinkedInForge / 2026</p>
+        </div>
       </div>
 
-      <hr className="my-10 border-gray-200" />
+      {/* SECONDARY RAIL */}
+      <div className="w-full lg:w-[340px] flex flex-col gap-12">
+        <div className="hidden lg:block pt-12">
+          <p className="text-metadata text-ink-muted mb-1">A QUIET SPACE FOR</p>
+          <p className="text-metadata text-ink-muted">BETTER FIRST DRAFTS.</p>
+        </div>
 
-      <div className="mb-8 opacity-90">
-        <h3 className="text-xl font-semibold mb-4 text-gray-700">💡 Need inspiration?</h3>
-        <div className="mb-4">
-          <p className="text-sm text-gray-500 mb-3">Select a domain to see trending news:</p>
-          <div className="flex flex-wrap gap-2">
+        <div>
+          <p className="text-metadata text-ink-muted mb-4">Voice Direction</p>
+          <div className="flex flex-col gap-3">
+             {TONES.map(t => (
+                <label key={t} className={`flex items-start gap-3 p-4 rounded-option border cursor-pointer transition-all focus-within:ring-2 focus-within:ring-ink/20 focus-within:outline-none ${tone === t ? 'bg-selected border-selected' : 'bg-transparent border-border hover:bg-surface-muted'}`}>
+                   <input type="radio" name="tone" value={t} checked={tone === t} onChange={(e) => setTone(e.target.value)} className="sr-only" />
+                   <div className={`mt-0.5 w-4 h-4 rounded-full border flex-shrink-0 flex items-center justify-center transition-colors ${tone === t ? 'border-graphite bg-graphite' : 'border-ink-muted'}`}>
+                      {tone === t && <div className="w-1.5 h-1.5 bg-surface rounded-full"></div>}
+                   </div>
+                   <p className="text-[14px] font-medium text-ink leading-snug">{t}</p>
+                </label>
+             ))}
+          </div>
+        </div>
+
+        <div>
+          <div className="flex items-center gap-3 mb-4">
+            <h3 className="text-metadata text-ink-muted">Inspiration</h3>
+            <span className="text-[10px] text-ink-muted tracking-widest uppercase px-2 py-0.5 rounded-full border border-border">Optional</span>
+          </div>
+          
+          <div className="flex flex-wrap gap-2 mb-6">
             {CATEGORIES.map(cat => (
               <button
                 key={cat}
                 onClick={() => handleCategorySelect(cat)}
-                className={`px-4 py-2 rounded-full border text-sm transition-colors ${
+                className={`px-4 py-2 rounded-pill border text-[13px] font-medium transition-colors ${
                   selectedCategory === cat 
-                    ? 'bg-blue-50 border-blue-300 text-blue-700' 
-                    : 'bg-white border-gray-200 hover:bg-gray-50 text-gray-600'
+                    ? 'bg-selected border-selected text-ink' 
+                    : 'bg-transparent border-border hover:bg-surface-muted text-ink-secondary'
                 }`}
               >
                 {cat}
               </button>
             ))}
           </div>
-        </div>
 
-        {isLoadingCurated && (
-          <div className="text-blue-600 my-4 flex items-center text-sm">
-            <svg className="animate-spin -ml-1 mr-3 h-4 w-4 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-            </svg>
-            Curating trending topics in {selectedCategory}...
-          </div>
-        )}
+          {isLoadingCurated && (
+            <div className="text-ink-secondary flex items-center text-[13px]">
+              <svg className="animate-spin -ml-1 mr-3 h-4 w-4 text-ink-muted" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              Curating trending topics...
+            </div>
+          )}
 
-        {curatedError && (
-          <div className="bg-red-50 text-red-700 p-4 rounded mb-4 text-sm">
-            {curatedError}
-          </div>
-        )}
+          {curatedError && (
+            <div className="bg-error/10 text-error p-4 rounded-control text-[13px] leading-relaxed">
+              {curatedError}
+            </div>
+          )}
 
-        {!isLoadingCurated && selectedCategory && curatedArticles.length > 0 && (
-          <div className="mt-6">
-            <p className="font-semibold mb-3 text-gray-700">Trending in {selectedCategory}:</p>
+          {!isLoadingCurated && selectedCategory && curatedArticles.length > 0 && (
             <div className="space-y-4">
               {curatedArticles.map((article, idx) => (
-                <div key={idx} className="border border-gray-200 rounded p-4 shadow-sm bg-gray-50 hover:bg-white transition-colors">
-                  <h4 className="text-lg font-medium mb-2 text-gray-800">{article.headline}</h4>
-                  <p className="text-gray-600 mb-4 text-sm">{article.summary}</p>
+                <div key={idx} className="border border-border rounded-card p-5 shadow-quiet bg-surface hover:bg-surface-muted transition-colors group">
+                  <h4 className="text-[15px] font-semibold mb-2 text-ink leading-snug">{article.headline}</h4>
+                  <p className="text-ink-secondary mb-4 text-[14px] leading-relaxed line-clamp-3">{article.summary}</p>
                   <button 
                     onClick={() => handleStartInterview(`${article.headline}: ${article.summary}`)}
                     disabled={isStarting}
-                    className="bg-white text-gray-700 border border-gray-300 px-4 py-2 rounded hover:bg-gray-100 transition-colors disabled:opacity-50 text-sm font-medium shadow-sm"
+                    className="text-graphite font-semibold text-[13px] group-hover:underline disabled:opacity-50 disabled:no-underline"
                   >
-                    Write about this
+                    Write about this →
                   </button>
                 </div>
               ))}
             </div>
-          </div>
-        )}
+          )}
 
-        {!isLoadingCurated && selectedCategory && curatedArticles.length === 0 && !curatedError && (
-          <div className="bg-yellow-50 text-yellow-800 p-4 rounded mt-4 text-sm">
-            No articles were found for this category right now. Please try another category or enter your topic manually above.
-          </div>
-        )}
+          {!isLoadingCurated && selectedCategory && curatedArticles.length === 0 && !curatedError && (
+            <p className="text-ink-secondary text-[13px]">No articles found for this category right now.</p>
+          )}
+        </div>
       </div>
     </div>
   );

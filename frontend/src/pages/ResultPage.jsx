@@ -25,15 +25,18 @@ export const ResultPage = () => {
   const finalDisplayText = postBody ? `${selectedHook}\n\n${postBody}` : selectedHook;
 
   return (
-    <div className="max-w-5xl mx-auto py-8 px-4">
-      <div className="mb-6">
+    <div className="max-w-3xl mx-auto py-12 md:py-20 w-full">
+      <div className="mb-12">
+        <p className="text-metadata text-ink-muted mb-4">Done</p>
+        <h2 className="text-hero text-ink mb-8">Your post is ready.</h2>
+        
         {!passesFaithfulness && (
-          <div className="bg-red-100 text-red-800 px-4 py-3 rounded font-medium mb-3 shadow-sm border border-red-200">
-            ⚠️ No draft passed the faithfulness check. This post contains material not supported by your brief — review every specific claim before publishing.
+          <div className="bg-warning/10 border border-warning/20 text-warning px-5 py-4 rounded-control text-[14px] leading-relaxed mb-4 shadow-sm">
+            No draft passed the faithfulness check. This post contains material not supported by your brief — review every specific claim before publishing.
           </div>
         )}
         {decision && (
-          <p className="text-sm text-gray-500 bg-gray-50 p-3 rounded border">
+          <p className="text-[14px] text-ink-secondary bg-surface-muted p-4 rounded-card border border-border">
             Stopped because: {decision.reason}
             {result.best_iteration < result.iteration && ` (Returned draft #${result.best_iteration} which scored higher)`}
           </p>
@@ -41,25 +44,25 @@ export const ResultPage = () => {
       </div>
 
       {/* TABS */}
-      <div className="border-b border-gray-200 mb-6">
-        <nav className="-mb-px flex space-x-8">
+      <div className="border-b border-border mb-12">
+        <nav className="flex space-x-10">
           <button 
             onClick={() => setActiveTab('post')}
-            className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors ${activeTab === 'post' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}`}
+            className={`py-4 font-sans font-medium text-[15px] transition-colors border-b-[2px] ${activeTab === 'post' ? 'border-ink text-ink' : 'border-transparent text-ink-secondary hover:text-ink'}`}
           >
-            📝 Final Post
+            Final Post
           </button>
           <button 
             onClick={() => setActiveTab('brief')}
-            className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors ${activeTab === 'brief' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}`}
+            className={`py-4 font-sans font-medium text-[15px] transition-colors border-b-[2px] ${activeTab === 'brief' ? 'border-ink text-ink' : 'border-transparent text-ink-secondary hover:text-ink'}`}
           >
-            🎯 Your Brief
+            Your Brief
           </button>
           <button 
             onClick={() => setActiveTab('eval')}
-            className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors ${activeTab === 'eval' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}`}
+            className={`py-4 font-sans font-medium text-[15px] transition-colors border-b-[2px] ${activeTab === 'eval' ? 'border-ink text-ink' : 'border-transparent text-ink-secondary hover:text-ink'}`}
           >
-            📊 Evaluation
+            Evaluation
           </button>
         </nav>
       </div>
@@ -67,79 +70,114 @@ export const ResultPage = () => {
       {/* TAB CONTENTS */}
       <div className="mb-12">
         {activeTab === 'post' && (
-          <div>
+          <div className="space-y-8">
             {altHooks.length > 0 && (
-              <div className="mb-6 bg-blue-50 p-4 rounded border border-blue-100">
-                <p className="font-semibold mb-3 text-blue-900">Want a different opening? Swap the hook:</p>
-                <div className="space-y-3">
-                  <label className="flex items-start space-x-3 cursor-pointer">
-                    <input type="radio" name="hook" checked={selectedHook === originalHook} onChange={() => setSelectedHook(originalHook)} className="mt-1" />
-                    <span className="text-sm text-gray-800"><span className="font-medium">Original</span> (Keep as generated): {originalHook}</span>
+              <div className="bg-surface-muted p-6 rounded-card border border-border">
+                <p className="text-[14px] font-semibold text-ink mb-4">Want a different opening? Swap the hook:</p>
+                <div className="flex flex-col gap-3">
+                  <label className={`flex items-start gap-4 p-4 rounded-card border cursor-pointer transition-all focus-within:ring-2 focus-within:ring-ink/20 focus-within:outline-none ${selectedHook === originalHook ? 'bg-selected border-selected' : 'bg-surface border-border hover:bg-surface-muted'}`}>
+                    <input type="radio" name="hook" checked={selectedHook === originalHook} onChange={() => setSelectedHook(originalHook)} className="sr-only" />
+                    <div className={`mt-0.5 w-4 h-4 rounded-full border flex-shrink-0 flex items-center justify-center transition-colors ${selectedHook === originalHook ? 'border-graphite bg-graphite' : 'border-ink-muted'}`}>
+                       {selectedHook === originalHook && <div className="w-1.5 h-1.5 bg-surface rounded-full"></div>}
+                    </div>
+                    <div>
+                      <p className="text-[14px] font-semibold text-ink mb-1">Original</p>
+                      <p className="text-[15px] text-ink-secondary leading-relaxed">{originalHook}</p>
+                    </div>
                   </label>
                   {altHooks.map((h, i) => (
-                    <label key={i} className="flex items-start space-x-3 cursor-pointer">
-                      <input type="radio" name="hook" checked={selectedHook === h.text} onChange={() => setSelectedHook(h.text)} className="mt-1" />
-                      <span className="text-sm text-gray-800"><span className="font-medium">{h.angle}:</span> <span className="text-gray-600">{h.text}</span></span>
+                    <label key={i} className={`flex items-start gap-4 p-4 rounded-card border cursor-pointer transition-all focus-within:ring-2 focus-within:ring-ink/20 focus-within:outline-none ${selectedHook === h.text ? 'bg-selected border-selected' : 'bg-surface border-border hover:bg-surface-muted'}`}>
+                      <input type="radio" name="hook" checked={selectedHook === h.text} onChange={() => setSelectedHook(h.text)} className="sr-only" />
+                      <div className={`mt-0.5 w-4 h-4 rounded-full border flex-shrink-0 flex items-center justify-center transition-colors ${selectedHook === h.text ? 'border-graphite bg-graphite' : 'border-ink-muted'}`}>
+                         {selectedHook === h.text && <div className="w-1.5 h-1.5 bg-surface rounded-full"></div>}
+                      </div>
+                      <div>
+                        <p className="text-[14px] font-semibold text-ink mb-1">{h.angle}</p>
+                        <p className="text-[15px] text-ink-secondary leading-relaxed">{h.text}</p>
+                      </div>
                     </label>
                   ))}
                 </div>
               </div>
             )}
-            <textarea 
-              className="w-full h-[500px] border border-gray-300 rounded p-6 font-sans text-lg focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm leading-relaxed resize-none bg-white"
-              readOnly
-              value={finalDisplayText}
-            />
+            
+            <div className="bg-surface border border-border rounded-card p-8 md:p-12 shadow-quiet">
+              <textarea 
+                className="w-full h-[600px] font-sans text-[17px] leading-[1.7] text-ink focus:outline-none focus:border-ink/20 resize-none bg-transparent transition-colors"
+                readOnly
+                value={finalDisplayText}
+              />
+            </div>
           </div>
         )}
 
         {activeTab === 'brief' && (
-          <div className="bg-gray-50 p-8 rounded border shadow-sm">
-             <h4 className="font-bold text-xl mb-2">{brief?.thesis}</h4>
-             <p className="text-sm text-gray-500 mb-8 border-b pb-4">This is the position the post will argue.</p>
-             
-             <div className="mb-6">
-               <h5 className="font-semibold text-gray-800 mb-3">Evidence</h5>
-               <ul className="list-disc pl-5 text-gray-700 space-y-2">{brief?.evidence?.map((e,i) => <li key={i}>{e}</li>)}</ul>
-             </div>
-             <div>
-               <h5 className="font-semibold text-gray-800 mb-3">Details</h5>
-               <ul className="list-disc pl-5 text-gray-700 space-y-2">{brief?.details?.map((d,i) => <li key={i}>{d}</li>)}</ul>
-             </div>
+          <div className="bg-surface border border-border rounded-card p-8 md:p-12 shadow-quiet">
+            <div className="mb-12">
+              <p className="text-metadata text-ink-muted mb-4">Thesis</p>
+              <h3 className="font-editorial text-[28px] md:text-[32px] text-ink leading-[1.2]">
+                {brief?.thesis || <span className="italic text-ink-secondary">No clear position captured.</span>}
+              </h3>
+            </div>
+
+            <div className="mb-12">
+              <p className="text-metadata text-ink-muted mb-4">Evidence</p>
+              {brief?.evidence && brief.evidence.length > 0 ? (
+                <ul className="space-y-4">
+                  {brief.evidence.map((item, i) => (
+                     <li key={i} className="flex items-start gap-4 text-[16px] text-ink-secondary leading-relaxed">
+                       <span className="text-ink-muted/50 mt-1.5">•</span>
+                       <span>{item}</span>
+                     </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="text-[16px] text-ink-muted italic">Nothing captured.</p>
+              )}
+            </div>
+
+            {brief?.details && brief.details.length > 0 && (
+              <div>
+                <p className="text-metadata text-ink-muted mb-4">Details</p>
+                <ul className="space-y-4">
+                  {brief.details.map((item, i) => (
+                     <li key={i} className="flex items-start gap-4 text-[16px] text-ink-secondary leading-relaxed">
+                       <span className="text-ink-muted/50 mt-1.5">•</span>
+                       <span>{item}</span>
+                     </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
         )}
 
         {activeTab === 'eval' && (
-          <div className="space-y-8">
+          <div className="space-y-12">
             {evaluation.unsupported_claims && evaluation.unsupported_claims.length > 0 && (
-              <div className="bg-red-50 border-l-4 border-red-500 text-red-800 p-6 rounded shadow-sm">
-                <h3 className="font-bold text-lg mb-3">Claims Not Supported by Your Brief</h3>
-                <ul className="list-disc pl-5 space-y-2">
-                  {evaluation.unsupported_claims.map((c, i) => <li key={i}>{c}</li>)}
+              <div className="bg-warning/10 border border-warning/20 p-6 md:p-8 rounded-card shadow-sm">
+                <p className="text-[15px] font-semibold text-warning mb-4">Claims Not Supported by Your Brief</p>
+                <ul className="space-y-3">
+                   {evaluation.unsupported_claims.map((claim, idx) => (
+                      <li key={idx} className="text-[14px] text-warning/90 leading-relaxed flex items-start gap-3"><span className="opacity-50 mt-1">•</span><span>{claim}</span></li>
+                   ))}
                 </ul>
               </div>
             )}
 
             {evaluation.scores && Object.keys(evaluation.scores).length > 0 && (
               <div>
-                <h3 className="text-xl font-bold mb-4 border-b pb-2">Score Breakdown</h3>
-                <div className="grid grid-cols-1 gap-4">
+                <p className="text-metadata text-ink-muted mb-6 border-b border-border pb-4">Score Breakdown</p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {Object.entries(evaluation.scores).map(([metric, data]) => {
                     const scoreValue = data?.score || 0;
-                    const percentage = (scoreValue / 10) * 100;
                     return (
-                      <div key={metric} className="bg-white border border-gray-200 rounded p-5 shadow-sm">
-                        <div className="flex justify-between items-end mb-3">
-                          <span className="font-bold capitalize text-gray-800">{metric}</span>
-                          <span className="text-sm font-semibold text-gray-600 bg-gray-100 px-2 py-1 rounded">{scoreValue}/10</span>
+                      <div key={metric} className="bg-surface border border-border rounded-card p-6 shadow-quiet">
+                        <div className="flex justify-between items-end mb-4">
+                          <span className="font-semibold capitalize text-ink text-[15px]">{metric}</span>
+                          <span className="text-[14px] font-medium text-ink-secondary">{scoreValue}/10</span>
                         </div>
-                        <div className="w-full bg-gray-200 rounded-full h-2.5 mb-4">
-                          <div 
-                            className={`h-2.5 rounded-full ${scoreValue >= 8 ? 'bg-green-500' : scoreValue >= 5 ? 'bg-yellow-400' : 'bg-red-500'}`} 
-                            style={{ width: `${Math.min(Math.max(percentage, 0), 100)}%` }}
-                          ></div>
-                        </div>
-                        <p className="text-sm text-gray-700 leading-relaxed">{data?.observation || ''}</p>
+                        <p className="text-[14px] text-ink-secondary leading-relaxed">{data?.observation || ''}</p>
                       </div>
                     );
                   })}
@@ -149,44 +187,52 @@ export const ResultPage = () => {
 
             {evaluation.strengths && evaluation.strengths.length > 0 && (
               <div>
-                <h3 className="text-xl font-bold mb-4 border-b pb-2">Strengths</h3>
-                <ul className="list-disc pl-5 space-y-2 text-gray-700">
-                  {evaluation.strengths.map((s, i) => <li key={i}>{s}</li>)}
+                <p className="text-metadata text-ink-muted mb-6 border-b border-border pb-4">Strengths</p>
+                <ul className="space-y-3">
+                  {evaluation.strengths.map((s, i) => (
+                    <li key={i} className="flex items-start gap-3 text-[15px] text-ink-secondary leading-relaxed">
+                      <span className="text-ink-muted/50 mt-1">•</span><span>{s}</span>
+                    </li>
+                  ))}
                 </ul>
               </div>
             )}
 
             {evaluation.weaknesses && evaluation.weaknesses.length > 0 && (
               <div>
-                <h3 className="text-xl font-bold mb-4 border-b pb-2">Areas to Improve</h3>
-                <ul className="list-disc pl-5 space-y-2 text-gray-700">
-                  {evaluation.weaknesses.map((w, i) => <li key={i}>{w}</li>)}
+                <p className="text-metadata text-ink-muted mb-6 border-b border-border pb-4">Areas to Improve</p>
+                <ul className="space-y-3">
+                  {evaluation.weaknesses.map((w, i) => (
+                    <li key={i} className="flex items-start gap-3 text-[15px] text-ink-secondary leading-relaxed">
+                      <span className="text-ink-muted/50 mt-1">•</span><span>{w}</span>
+                    </li>
+                  ))}
                 </ul>
               </div>
             )}
 
             {evaluation.improvement_opportunities && evaluation.improvement_opportunities.length > 0 && (
               <div>
-                <h3 className="text-xl font-bold mb-4 border-b pb-2">Improvement Opportunities</h3>
+                <p className="text-metadata text-ink-muted mb-6 border-b border-border pb-4">Improvement Opportunities</p>
                 <div className="space-y-4">
                   {evaluation.improvement_opportunities.map((opp, i) => (
-                    <div key={i} className="bg-blue-50 border border-blue-100 rounded p-5">
-                      <div className="flex gap-3 items-center mb-3">
-                        <span className="bg-blue-200 text-blue-800 text-xs font-bold px-2 py-1 rounded uppercase tracking-wider">
+                    <div key={i} className="bg-surface-muted border border-border rounded-card p-6">
+                      <div className="flex items-center gap-3 mb-4">
+                        <span className="text-[11px] font-bold text-ink-secondary uppercase tracking-widest bg-surface border border-border px-2 py-1 rounded">
                           {opp.category || 'General'}
                         </span>
                         {opp.priority && (
-                          <span className={`text-xs font-bold px-2 py-1 rounded uppercase tracking-wider ${
-                            opp.priority.toLowerCase() === 'high' ? 'bg-red-100 text-red-800' : 
-                            opp.priority.toLowerCase() === 'medium' ? 'bg-yellow-100 text-yellow-800' : 
-                            'bg-gray-100 text-gray-800'
+                          <span className={`text-[11px] font-bold uppercase tracking-widest px-2 py-1 rounded border ${
+                            opp.priority.toLowerCase() === 'high' ? 'bg-error/10 text-error border-error/20' : 
+                            opp.priority.toLowerCase() === 'medium' ? 'bg-warning/10 text-warning border-warning/20' : 
+                            'bg-surface text-ink-secondary border-border'
                           }`}>
                             {opp.priority} Priority
                           </span>
                         )}
                       </div>
-                      {opp.reason && <p className="text-sm text-gray-700 mb-2"><strong>Reason:</strong> {opp.reason}</p>}
-                      {opp.recommendation && <p className="text-sm text-gray-700"><strong>Recommendation:</strong> {opp.recommendation}</p>}
+                      {opp.reason && <p className="text-[14px] text-ink-secondary mb-2"><strong>Reason:</strong> {opp.reason}</p>}
+                      {opp.recommendation && <p className="text-[14px] text-ink-secondary"><strong>Recommendation:</strong> {opp.recommendation}</p>}
                     </div>
                   ))}
                 </div>
@@ -196,28 +242,10 @@ export const ResultPage = () => {
         )}
       </div>
 
-      <hr className="border-gray-200 mb-12" />
-
-      {/* SECONDARY SUMMARY / SCORE INFORMATION */}
-      <div className="mb-12">
-        <h3 className="text-lg font-bold mb-6 text-gray-800">Final Metrics</h3>
-        <div className="grid grid-cols-2 gap-6">
-          <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm flex flex-col items-center justify-center">
-            <p className="text-sm text-gray-500 font-medium uppercase tracking-wider mb-2">Craft Score</p>
-            <p className="text-4xl font-bold text-gray-900">{verdict.craft_score || 0}<span className="text-xl text-gray-400">/10</span></p>
-          </div>
-          <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm flex flex-col items-center justify-center">
-            <p className="text-sm text-gray-500 font-medium uppercase tracking-wider mb-2">Faithfulness</p>
-            <p className="text-4xl font-bold text-gray-900">{verdict.faithfulness || 0}<span className="text-xl text-gray-400">/10</span></p>
-          </div>
-        </div>
-      </div>
-
-      {/* WRITE ANOTHER POST */}
-      <div className="mt-16 text-center">
+      <div className="mt-20 pt-12 border-t border-border flex justify-center">
         <button 
           onClick={resetWorkflow}
-          className="bg-blue-600 text-white font-bold py-4 px-8 rounded-lg hover:bg-blue-700 transition-colors shadow-md text-lg w-full sm:w-auto"
+          className="w-full sm:w-auto bg-graphite text-surface font-sans font-semibold text-[15px] py-4 px-8 rounded-button hover:-translate-y-[1px] hover:shadow-soft transition-all shadow-quiet"
         >
           Write another post
         </button>
