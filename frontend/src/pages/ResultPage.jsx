@@ -31,7 +31,7 @@ export const ResultPage = () => {
         <h2 className="text-hero text-ink mb-5">Your post is ready.</h2>
         
         {!passesFaithfulness && (
-          <div className="bg-warning/10 border border-warning/20 text-warning px-5 py-4 rounded-control text-[14px] leading-relaxed mb-4 shadow-sm">
+          <div className="bg-warning/10 border border-warning/30 text-warning/90 px-5 py-4 rounded-control text-[14px] leading-relaxed mb-4 shadow-sm font-medium">
             No draft passed the faithfulness check. This post contains material not supported by your brief — review every specific claim before publishing.
           </div>
         )}
@@ -154,7 +154,7 @@ export const ResultPage = () => {
         {activeTab === 'eval' && (
           <div className="space-y-12">
             {evaluation.unsupported_claims && evaluation.unsupported_claims.length > 0 && (
-              <div className="bg-warning/10 border border-warning/20 p-6 md:p-8 rounded-card shadow-sm">
+              <div className="bg-warning/10 border border-warning/30 p-6 md:p-8 rounded-card shadow-sm">
                 <p className="text-[14px] font-semibold text-warning mb-4">Claims Not Supported by Your Brief</p>
                 <ul className="space-y-3">
                    {evaluation.unsupported_claims.map((claim, idx) => (
@@ -222,8 +222,8 @@ export const ResultPage = () => {
                         </span>
                         {opp.priority && (
                           <span className={`text-[11px] font-bold uppercase tracking-widest px-2 py-1 rounded border ${
-                            opp.priority.toLowerCase() === 'high' ? 'bg-error/10 text-error border-error/20' : 
-                            opp.priority.toLowerCase() === 'medium' ? 'bg-warning/10 text-warning border-warning/20' : 
+                            opp.priority.toLowerCase() === 'high' ? 'bg-error/10 text-error border-error/30' : 
+                            opp.priority.toLowerCase() === 'medium' ? 'bg-warning/10 text-warning border-warning/30' : 
                             'bg-surface text-ink-secondary border-border'
                           }`}>
                             {opp.priority} Priority

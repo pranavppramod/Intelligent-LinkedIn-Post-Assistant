@@ -109,20 +109,20 @@ export const BriefPage = () => {
       </div>
 
       {hasNoEvidence && (
-        <div className="bg-error/5 text-error p-6 md:p-8 rounded-card mb-12 border border-error/20 shadow-sm">
+        <div className="bg-error/10 text-error p-6 md:p-8 rounded-card mb-12 border border-error/30 shadow-sm">
           <strong className="block mb-4 text-[15px] font-semibold">This brief has no first-hand experience.</strong>
-          <p className="text-[14px] leading-relaxed mb-4">The writer would have nothing to draw on and would invent specifics, which the faithfulness check then rejects. That cycle costs several minutes and produces a post you cannot publish.</p>
-          <p className="text-[14px] leading-relaxed">Go back and answer at least one question with something that actually happened — a project, a decision, a thing that broke.</p>
+          <p className="text-[14px] leading-relaxed mb-4 text-error/90">The writer would have nothing to draw on and would invent specifics, which the faithfulness check then rejects. That cycle costs several minutes and produces a post you cannot publish.</p>
+          <p className="text-[14px] leading-relaxed text-error/90">Go back and answer at least one question with something that actually happened — a project, a decision, a thing that broke.</p>
         </div>
       )}
 
       {!hasNoEvidence && gaps.length > 0 && (
-        <div className="bg-surface-muted text-ink-secondary p-6 md:p-8 rounded-card mb-12 border border-border">
-          <p className="text-[14px] font-medium mb-4 text-ink">The brief is usable, but these would strengthen it:</p>
+        <div className="bg-warning/10 text-warning/90 p-6 md:p-8 rounded-card mb-12 border border-warning/30 shadow-sm">
+          <p className="text-[14px] font-medium mb-4 text-warning">The brief is usable, but these would strengthen it:</p>
           <ul className="space-y-3">
             {gaps.map((g, i) => (
               <li key={i} className="flex items-center gap-4 text-[13px]">
-                 <span className="w-1.5 h-1.5 rounded-full bg-ink-muted"></span>
+                 <span className="w-1.5 h-1.5 rounded-full bg-warning/50"></span>
                  {g}
               </li>
             ))}
@@ -149,8 +149,8 @@ export const BriefPage = () => {
         )}
 
         {isFetchingContext && (
-          <div className="flex items-center text-ink-secondary p-5 border border-border rounded-card bg-surface-muted text-[13px] mt-6">
-            <svg className="animate-spin -ml-1 mr-3 h-4 w-4 text-ink-muted" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <div className="flex items-center text-info p-5 border border-info/30 rounded-card bg-info/10 text-[13px] mt-6 font-medium">
+            <svg className="animate-spin -ml-1 mr-3 h-4 w-4 text-info/70" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
             </svg>
@@ -158,7 +158,11 @@ export const BriefPage = () => {
           </div>
         )}
 
-        {contextError && <p className="text-error text-[13px] mt-4">{contextError}</p>}
+        {contextError && (
+          <div className="bg-error/10 text-error p-4 rounded-control text-[13px] mt-6 border border-error/30 font-medium">
+            {contextError}
+          </div>
+        )}
 
         {rawSearchResults && rawSearchResults.length > 0 && (
           <div className="space-y-4">
@@ -192,7 +196,7 @@ export const BriefPage = () => {
         )}
 
         {rawSearchResults && rawSearchResults.length === 0 && (
-          <div className="bg-warning/10 text-warning p-4 rounded-control text-[13px] mt-4">
+          <div className="bg-warning/10 text-warning p-4 rounded-control text-[13px] mt-6 border border-warning/30 font-medium">
             No relevant live data found right now.
           </div>
         )}

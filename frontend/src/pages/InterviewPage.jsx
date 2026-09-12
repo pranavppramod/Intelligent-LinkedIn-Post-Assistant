@@ -124,7 +124,7 @@ export const InterviewPage = () => {
       </div>
 
       {error && (
-        <div className="bg-error/10 text-error p-4 rounded-control mb-8 text-[14px]">
+        <div className="bg-error/10 text-error p-4 rounded-control mb-8 text-[14px] border border-error/30 font-medium">
           {error}
         </div>
       )}
