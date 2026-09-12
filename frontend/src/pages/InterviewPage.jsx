@@ -122,6 +122,12 @@ export const InterviewPage = () => {
         </div>
       )}
 
+      <div className="flex justify-between items-center w-full pb-8">
+            <span className="text-metadata text-ink-muted">{filledCount} OF {totalQuestions} ANSWERED</span>
+            <div className="flex-1 ml-4 bg-surface-muted h-1 rounded-full overflow-hidden">
+              <div className="bg-ink-muted h-full transition-all" style={{ width: `${progressPercent}%` }}></div>
+            </div>
+          </div>
       <div className="flex flex-col-reverse sm:flex-row gap-4 border-t border-border pt-8">
         <div className="w-full sm:w-1/3 flex flex-col justify-end">
           <button
@@ -132,13 +138,7 @@ export const InterviewPage = () => {
             {isSubmitting ? 'Skipping...' : 'Skip to brief'}
           </button>
         </div>
-        <div className="w-full sm:w-2/3 flex flex-col gap-4">
-          <div className="flex justify-between items-center w-full">
-            <span className="text-metadata text-ink-muted">{filledCount} OF {totalQuestions} ANSWERED</span>
-            <div className="flex-1 ml-4 bg-surface-muted h-1 rounded-full overflow-hidden">
-              <div className="bg-ink-muted h-full transition-all" style={{ width: `${progressPercent}%` }}></div>
-            </div>
-          </div>
+        <div className="w-full flex flex-col gap-4">
           <button
             onClick={handleContinue}
             disabled={isSubmitting}
