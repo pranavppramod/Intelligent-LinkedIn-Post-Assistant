@@ -28,7 +28,24 @@ function AppContent() {
     } catch {}
   }, [theme]);
 
-  const toggleTheme = () => setTheme(t => t === 'dark' ? 'light' : 'dark');
+  const [isTransitioning, setIsTransitioning] = useState(false);
+
+  const toggleTheme = () => {
+    if (isTransitioning) return;
+    setIsTransitioning(true);
+    document.body.classList.add('theme-blur-in');
+    
+    setTimeout(() => {
+      setTheme(t => t === 'dark' ? 'light' : 'dark');
+      document.body.classList.remove('theme-blur-in');
+      document.body.classList.add('theme-blur-out');
+      
+      setTimeout(() => {
+        document.body.classList.remove('theme-blur-out');
+        setIsTransitioning(false);
+      }, 250);
+    }, 150);
+  };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -37,9 +54,10 @@ function AppContent() {
         <div className="font-editorial text-[28px] md:text-[32px] tracking-tight text-ink">LinkedInForge</div>
         <button 
           onClick={toggleTheme}
+          disabled={isTransitioning}
           aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
           title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-          className="p-2 rounded-full hover:bg-surface-muted transition-colors border border-transparent hover:border-border text-ink-secondary hover:text-ink focus:outline-none focus:ring-2 focus:ring-ink/20 flex-shrink-0"
+          className="p-2 rounded-full hover:bg-surface-muted transition-colors border border-transparent hover:border-border text-ink-secondary hover:text-ink focus:outline-none focus:ring-2 focus:ring-ink/20 flex-shrink-0 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {theme === 'dark' ? (
             <svg className="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

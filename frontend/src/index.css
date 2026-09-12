@@ -121,4 +121,26 @@
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
     background: var(--theme-ink-muted);
   }
+
+  @media (prefers-reduced-motion: no-preference) {
+    body.theme-blur-in main {
+      filter: blur(3px);
+      opacity: 0.9;
+      transition: filter 150ms ease-in, opacity 150ms ease-in;
+    }
+    body.theme-blur-out main {
+      filter: blur(0px);
+      opacity: 1;
+      transition: filter 250ms ease-out, opacity 250ms ease-out;
+    }
+    body.theme-blur-in *, body.theme-blur-out * {
+      transition: background-color 350ms ease-out, border-color 350ms ease-out, color 350ms ease-out, fill 350ms ease-out !important;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    body.theme-blur-in *, body.theme-blur-out * {
+      transition: background-color 200ms ease-out, border-color 200ms ease-out, color 200ms ease-out, fill 200ms ease-out !important;
+    }
+  }
 }
