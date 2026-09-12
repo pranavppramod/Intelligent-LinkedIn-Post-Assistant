@@ -1,4 +1,4 @@
-# Intelligent LinkedIn Post Assistant | LinkedInForge
+# Intelligent LinkedIn Post Assistant | LinkForge
 
 > A self-healing, deterministic multi-agent AI pipeline for creating fact-checked, high-craft, and authentic LinkedIn content.
 

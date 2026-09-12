@@ -93,13 +93,6 @@ export const InterviewPage = () => {
         </div>
       </div>
 
-      <div className="flex justify-between items-center mb-16">
-        <span className="text-metadata text-ink-muted">{filledCount} OF {totalQuestions} ANSWERED</span>
-        <div className="w-32 bg-surface-muted h-1 rounded-full overflow-hidden">
-          <div className="bg-ink-muted h-full transition-all" style={{ width: `${progressPercent}%` }}></div>
-        </div>
-      </div>
-
       <div className="space-y-20 mb-16">
         {questions.map((q, idx) => (
           <div key={q.id} className="relative group">
@@ -130,28 +123,38 @@ export const InterviewPage = () => {
       )}
 
       <div className="flex flex-col-reverse sm:flex-row gap-4 border-t border-border pt-8">
-        <button
-          onClick={handleSkip}
-          disabled={isSubmitting}
-          className="w-full sm:w-1/3 bg-transparent text-ink-secondary font-sans font-semibold text-[14px] py-3.5 px-6 rounded-button border border-border hover:bg-surface-muted transition-all disabled:opacity-50 flex justify-center items-center"
-        >
-          {isSubmitting ? 'Skipping...' : 'Skip to brief'}
-        </button>
-        <button
-          onClick={handleContinue}
-          disabled={isSubmitting}
-          className="w-full sm:w-2/3 bg-graphite text-surface font-sans font-semibold text-[14px] py-3.5 px-6 rounded-button hover:-translate-y-[1px] hover:shadow-soft transition-all disabled:opacity-50 disabled:hover:transform-none flex justify-center items-center shadow-quiet"
-        >
-          {isSubmitting ? (
-            <>
-              <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-surface" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-              </svg>
-              Looking for areas worth exploring...
-            </>
-          ) : 'Continue'}
-        </button>
+        <div className="w-full sm:w-1/3 flex flex-col justify-end">
+          <button
+            onClick={handleSkip}
+            disabled={isSubmitting}
+            className="w-full bg-transparent text-ink-secondary font-sans font-semibold text-[14px] py-3.5 px-6 rounded-button border border-border hover:bg-surface-muted transition-all disabled:opacity-50 flex justify-center items-center"
+          >
+            {isSubmitting ? 'Skipping...' : 'Skip to brief'}
+          </button>
+        </div>
+        <div className="w-full sm:w-2/3 flex flex-col gap-4">
+          <div className="flex justify-between items-center w-full">
+            <span className="text-metadata text-ink-muted">{filledCount} OF {totalQuestions} ANSWERED</span>
+            <div className="flex-1 ml-4 bg-surface-muted h-1 rounded-full overflow-hidden">
+              <div className="bg-ink-muted h-full transition-all" style={{ width: `${progressPercent}%` }}></div>
+            </div>
+          </div>
+          <button
+            onClick={handleContinue}
+            disabled={isSubmitting}
+            className="w-full bg-graphite text-surface font-sans font-semibold text-[14px] py-3.5 px-6 rounded-button hover:-translate-y-[1px] hover:shadow-soft transition-all disabled:opacity-50 disabled:hover:transform-none flex justify-center items-center shadow-quiet"
+          >
+            {isSubmitting ? (
+              <>
+                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-surface" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Looking for areas worth exploring...
+              </>
+            ) : 'Continue'}
+          </button>
+        </div>
       </div>
     </div>
   );

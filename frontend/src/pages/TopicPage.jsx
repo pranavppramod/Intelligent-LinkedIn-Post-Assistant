@@ -171,7 +171,7 @@ export const TopicPage = () => {
 
         <div className="flex flex-wrap gap-8 text-metadata text-ink-muted mt-12 pt-6 border-t border-border/50">
            <p>Private Draft</p>
-           <p>Autosave On — LinkedInForge / 2026</p>
+           <p>Autosave On — LinkForge / 2026</p>
         </div>
       </div>
 

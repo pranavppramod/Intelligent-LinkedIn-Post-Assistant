@@ -51,7 +51,7 @@ function AppContent() {
     <div className="min-h-screen flex flex-col">
       {/* Global Header */}
       <header className="h-[76px] flex items-center justify-between px-6 md:px-10 max-w-[1320px] w-full mx-auto">
-        <div className="font-editorial text-[28px] md:text-[32px] tracking-tight text-ink">LinkedInForge</div>
+        <div className="font-editorial text-[28px] md:text-[32px] tracking-tight text-ink">LinkForge</div>
         <button 
           onClick={toggleTheme}
           disabled={isTransitioning}
