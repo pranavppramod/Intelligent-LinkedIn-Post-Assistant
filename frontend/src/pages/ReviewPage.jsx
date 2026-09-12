@@ -259,7 +259,7 @@ export const ReviewPage = () => {
         
         <div className="mb-12 bg-surface border border-border rounded-card p-6 md:p-10 shadow-quiet focus-within:border-ink/30 focus-within:ring-1 focus-within:ring-ink/10 transition-all">
           <textarea 
-            className="w-full h-[500px] text-[16px] text-ink leading-[1.7] font-sans focus:outline-none resize-y bg-transparent custom-scrollbar"
+            className="w-full h-[500px] text-[16px] text-ink leading-[1.7] font-sans focus:outline-none resize-none bg-transparent custom-scrollbar"
             value={draftEdits}
             onChange={e => setDraftEdits(e.target.value)}
           />
