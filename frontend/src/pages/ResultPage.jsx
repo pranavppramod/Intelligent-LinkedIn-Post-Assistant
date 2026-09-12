@@ -25,10 +25,10 @@ export const ResultPage = () => {
   const finalDisplayText = postBody ? `${selectedHook}\n\n${postBody}` : selectedHook;
 
   return (
-    <div className="max-w-3xl mx-auto py-12 md:py-20 w-full">
-      <div className="mb-12">
-        <p className="text-metadata text-ink-muted mb-4">Done</p>
-        <h2 className="text-hero text-ink mb-8">Your post is ready.</h2>
+    <div className="max-w-3xl mx-auto py-10 md:py-16 w-full">
+      <div className="mb-10">
+        <p className="text-metadata text-ink-muted mb-3">Done</p>
+        <h2 className="text-hero text-ink mb-5">Your post is ready.</h2>
         
         {!passesFaithfulness && (
           <div className="bg-warning/10 border border-warning/20 text-warning px-5 py-4 rounded-control text-[14px] leading-relaxed mb-4 shadow-sm">
@@ -38,29 +38,28 @@ export const ResultPage = () => {
         {decision && (
           <p className="text-[14px] text-ink-secondary bg-surface-muted p-4 rounded-card border border-border">
             Stopped because: {decision.reason}
-            {result.best_iteration < result.iteration && ` (Returned draft #${result.best_iteration} which scored higher)`}
           </p>
         )}
       </div>
 
       {/* TABS */}
-      <div className="border-b border-border mb-12">
+      <div className="border-b border-border mb-10">
         <nav className="flex space-x-10">
           <button 
             onClick={() => setActiveTab('post')}
-            className={`py-4 font-sans font-medium text-[15px] transition-colors border-b-[2px] ${activeTab === 'post' ? 'border-ink text-ink' : 'border-transparent text-ink-secondary hover:text-ink'}`}
+            className={`py-3 font-sans font-medium text-[13px] transition-colors border-b-[2px] ${activeTab === 'post' ? 'border-ink text-ink' : 'border-transparent text-ink-secondary hover:text-ink'}`}
           >
             Final Post
           </button>
           <button 
             onClick={() => setActiveTab('brief')}
-            className={`py-4 font-sans font-medium text-[15px] transition-colors border-b-[2px] ${activeTab === 'brief' ? 'border-ink text-ink' : 'border-transparent text-ink-secondary hover:text-ink'}`}
+            className={`py-3 font-sans font-medium text-[13px] transition-colors border-b-[2px] ${activeTab === 'brief' ? 'border-ink text-ink' : 'border-transparent text-ink-secondary hover:text-ink'}`}
           >
             Your Brief
           </button>
           <button 
             onClick={() => setActiveTab('eval')}
-            className={`py-4 font-sans font-medium text-[15px] transition-colors border-b-[2px] ${activeTab === 'eval' ? 'border-ink text-ink' : 'border-transparent text-ink-secondary hover:text-ink'}`}
+            className={`py-3 font-sans font-medium text-[13px] transition-colors border-b-[2px] ${activeTab === 'eval' ? 'border-ink text-ink' : 'border-transparent text-ink-secondary hover:text-ink'}`}
           >
             Evaluation
           </button>
@@ -68,7 +67,7 @@ export const ResultPage = () => {
       </div>
 
       {/* TAB CONTENTS */}
-      <div className="mb-12">
+      <div className="mb-10">
         {activeTab === 'post' && (
           <div className="space-y-8">
             {altHooks.length > 0 && (
@@ -82,7 +81,7 @@ export const ResultPage = () => {
                     </div>
                     <div>
                       <p className="text-[14px] font-semibold text-ink mb-1">Original</p>
-                      <p className="text-[15px] text-ink-secondary leading-relaxed">{originalHook}</p>
+                      <p className="text-[14px] text-ink-secondary leading-relaxed">{originalHook}</p>
                     </div>
                   </label>
                   {altHooks.map((h, i) => (
@@ -93,7 +92,7 @@ export const ResultPage = () => {
                       </div>
                       <div>
                         <p className="text-[14px] font-semibold text-ink mb-1">{h.angle}</p>
-                        <p className="text-[15px] text-ink-secondary leading-relaxed">{h.text}</p>
+                        <p className="text-[14px] text-ink-secondary leading-relaxed">{h.text}</p>
                       </div>
                     </label>
                   ))}
@@ -101,9 +100,9 @@ export const ResultPage = () => {
               </div>
             )}
             
-            <div className="bg-surface border border-border rounded-card p-8 md:p-12 shadow-quiet">
+            <div className="bg-surface border border-border rounded-card p-6 md:p-10 shadow-quiet">
               <textarea 
-                className="w-full h-[600px] font-sans text-[17px] leading-[1.7] text-ink focus:outline-none focus:border-ink/20 resize-none bg-transparent transition-colors"
+                className="w-full h-[550px] font-sans text-[16px] leading-[1.7] text-ink focus:outline-none focus:border-ink/20 resize-none bg-transparent transition-colors custom-scrollbar"
                 readOnly
                 value={finalDisplayText}
               />
@@ -112,36 +111,36 @@ export const ResultPage = () => {
         )}
 
         {activeTab === 'brief' && (
-          <div className="bg-surface border border-border rounded-card p-8 md:p-12 shadow-quiet">
-            <div className="mb-12">
-              <p className="text-metadata text-ink-muted mb-4">Thesis</p>
-              <h3 className="font-editorial text-[28px] md:text-[32px] text-ink leading-[1.2]">
+          <div className="bg-surface border border-border rounded-card p-6 md:p-10 shadow-quiet">
+            <div className="mb-10">
+              <p className="text-metadata text-ink-muted mb-3">Thesis</p>
+              <h3 className="font-editorial text-[26px] md:text-[30px] text-ink leading-[1.2]">
                 {brief?.thesis || <span className="italic text-ink-secondary">No clear position captured.</span>}
               </h3>
             </div>
 
-            <div className="mb-12">
-              <p className="text-metadata text-ink-muted mb-4">Evidence</p>
+            <div className="mb-10">
+              <p className="text-metadata text-ink-muted mb-3">Evidence</p>
               {brief?.evidence && brief.evidence.length > 0 ? (
-                <ul className="space-y-4">
+                <ul className="space-y-3">
                   {brief.evidence.map((item, i) => (
-                     <li key={i} className="flex items-start gap-4 text-[16px] text-ink-secondary leading-relaxed">
+                     <li key={i} className="flex items-start gap-4 text-[15px] text-ink-secondary leading-relaxed">
                        <span className="text-ink-muted/50 mt-1.5">•</span>
                        <span>{item}</span>
                      </li>
                   ))}
                 </ul>
               ) : (
-                <p className="text-[16px] text-ink-muted italic">Nothing captured.</p>
+                <p className="text-[15px] text-ink-muted italic">Nothing captured.</p>
               )}
             </div>
 
             {brief?.details && brief.details.length > 0 && (
               <div>
-                <p className="text-metadata text-ink-muted mb-4">Details</p>
-                <ul className="space-y-4">
+                <p className="text-metadata text-ink-muted mb-3">Details</p>
+                <ul className="space-y-3">
                   {brief.details.map((item, i) => (
-                     <li key={i} className="flex items-start gap-4 text-[16px] text-ink-secondary leading-relaxed">
+                     <li key={i} className="flex items-start gap-4 text-[15px] text-ink-secondary leading-relaxed">
                        <span className="text-ink-muted/50 mt-1.5">•</span>
                        <span>{item}</span>
                      </li>
@@ -156,10 +155,10 @@ export const ResultPage = () => {
           <div className="space-y-12">
             {evaluation.unsupported_claims && evaluation.unsupported_claims.length > 0 && (
               <div className="bg-warning/10 border border-warning/20 p-6 md:p-8 rounded-card shadow-sm">
-                <p className="text-[15px] font-semibold text-warning mb-4">Claims Not Supported by Your Brief</p>
+                <p className="text-[14px] font-semibold text-warning mb-4">Claims Not Supported by Your Brief</p>
                 <ul className="space-y-3">
                    {evaluation.unsupported_claims.map((claim, idx) => (
-                      <li key={idx} className="text-[14px] text-warning/90 leading-relaxed flex items-start gap-3"><span className="opacity-50 mt-1">•</span><span>{claim}</span></li>
+                      <li key={idx} className="text-[13px] text-warning/90 leading-relaxed flex items-start gap-3"><span className="opacity-50 mt-1">•</span><span>{claim}</span></li>
                    ))}
                 </ul>
               </div>
@@ -174,10 +173,10 @@ export const ResultPage = () => {
                     return (
                       <div key={metric} className="bg-surface border border-border rounded-card p-6 shadow-quiet">
                         <div className="flex justify-between items-end mb-4">
-                          <span className="font-semibold capitalize text-ink text-[15px]">{metric}</span>
-                          <span className="text-[14px] font-medium text-ink-secondary">{scoreValue}/10</span>
+                          <span className="font-semibold capitalize text-ink text-[14px]">{metric}</span>
+                          <span className="text-[13px] font-medium text-ink-secondary">{scoreValue}/10</span>
                         </div>
-                        <p className="text-[14px] text-ink-secondary leading-relaxed">{data?.observation || ''}</p>
+                        <p className="text-[13px] text-ink-secondary leading-relaxed">{data?.observation || ''}</p>
                       </div>
                     );
                   })}
@@ -190,7 +189,7 @@ export const ResultPage = () => {
                 <p className="text-metadata text-ink-muted mb-6 border-b border-border pb-4">Strengths</p>
                 <ul className="space-y-3">
                   {evaluation.strengths.map((s, i) => (
-                    <li key={i} className="flex items-start gap-3 text-[15px] text-ink-secondary leading-relaxed">
+                    <li key={i} className="flex items-start gap-3 text-[14px] text-ink-secondary leading-relaxed">
                       <span className="text-ink-muted/50 mt-1">•</span><span>{s}</span>
                     </li>
                   ))}
@@ -203,7 +202,7 @@ export const ResultPage = () => {
                 <p className="text-metadata text-ink-muted mb-6 border-b border-border pb-4">Areas to Improve</p>
                 <ul className="space-y-3">
                   {evaluation.weaknesses.map((w, i) => (
-                    <li key={i} className="flex items-start gap-3 text-[15px] text-ink-secondary leading-relaxed">
+                    <li key={i} className="flex items-start gap-3 text-[14px] text-ink-secondary leading-relaxed">
                       <span className="text-ink-muted/50 mt-1">•</span><span>{w}</span>
                     </li>
                   ))}
@@ -231,8 +230,8 @@ export const ResultPage = () => {
                           </span>
                         )}
                       </div>
-                      {opp.reason && <p className="text-[14px] text-ink-secondary mb-2"><strong>Reason:</strong> {opp.reason}</p>}
-                      {opp.recommendation && <p className="text-[14px] text-ink-secondary"><strong>Recommendation:</strong> {opp.recommendation}</p>}
+                      {opp.reason && <p className="text-[13px] text-ink-secondary mb-2"><strong>Reason:</strong> {opp.reason}</p>}
+                      {opp.recommendation && <p className="text-[13px] text-ink-secondary"><strong>Recommendation:</strong> {opp.recommendation}</p>}
                     </div>
                   ))}
                 </div>
@@ -242,10 +241,10 @@ export const ResultPage = () => {
         )}
       </div>
 
-      <div className="mt-20 pt-12 border-t border-border flex justify-center">
+      <div className="mt-16 pt-10 border-t border-border flex justify-center">
         <button 
           onClick={resetWorkflow}
-          className="w-full sm:w-auto bg-graphite text-surface font-sans font-semibold text-[15px] py-4 px-8 rounded-button hover:-translate-y-[1px] hover:shadow-soft transition-all shadow-quiet"
+          className="w-full sm:w-auto bg-graphite text-surface font-sans font-semibold text-[14px] py-3.5 px-8 rounded-button hover:-translate-y-[1px] hover:shadow-soft transition-all shadow-quiet"
         >
           Write another post
         </button>

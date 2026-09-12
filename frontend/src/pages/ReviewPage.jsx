@@ -133,10 +133,10 @@ export const ReviewPage = () => {
     ];
 
     return (
-      <div className="max-w-3xl mx-auto py-16 md:py-24 w-full flex flex-col items-center justify-center min-h-[60vh]">
+      <div className="max-w-3xl mx-auto py-12 md:py-20 w-full flex flex-col items-center justify-center min-h-[60vh]">
         <div className="w-full max-w-md">
           <p className="text-metadata text-ink-muted mb-6 text-center">Working on your post</p>
-          <div className="bg-surface border border-border rounded-card p-8 md:p-10 shadow-quiet">
+          <div className="bg-surface border border-border rounded-card p-6 md:p-8 shadow-quiet">
             <ul className="space-y-6">
               {checkpoints.map((cp, idx) => {
                 let icon = <span className="w-5 h-5 rounded-full border border-ink-muted/30 flex items-center justify-center text-[10px] text-transparent transition-colors">✓</span>;
@@ -158,7 +158,7 @@ export const ReviewPage = () => {
                 return (
                   <li key={idx} className={`flex items-center gap-4 ${textColor} transition-all duration-300`}>
                     <div className="flex-shrink-0 flex items-center justify-center w-5">{icon}</div>
-                    <span className="text-[15px]">{cp.label}</span>
+                    <span className="text-[14px]">{cp.label}</span>
                   </li>
                 );
               })}
@@ -175,29 +175,29 @@ export const ReviewPage = () => {
   if (graphState.status === 'awaiting_research_review') {
     const proposed = graphState.proposed_references || [];
     return (
-      <div className="max-w-3xl mx-auto py-8 md:py-12 w-full">
-        <div className="mb-16">
-          <p className="text-metadata text-ink-muted mb-4">Step 5 / Optional Context</p>
-          <h2 className="text-hero text-ink mb-8">Review the<br/>sources.</h2>
-          <div className="border-b border-border pb-6">
-            <p className="text-[13px] text-ink-secondary font-medium tracking-wide uppercase">These references were found to support the post.</p>
+      <div className="max-w-3xl mx-auto py-6 md:py-10 w-full">
+        <div className="mb-12">
+          <p className="text-metadata text-ink-muted mb-3">Step 5 / Optional Context</p>
+          <h2 className="text-hero text-ink mb-5">Review the<br/>sources.</h2>
+          <div className="border-b border-border pb-4">
+            <p className="text-[12px] text-ink-secondary font-medium tracking-wide uppercase">These references were found to support the post.</p>
           </div>
         </div>
         
         {proposed.length === 0 ? (
-          <div className="bg-surface border border-border p-8 md:p-12 rounded-card text-center mb-12 shadow-quiet">
-            <p className="text-[15px] text-ink-secondary mb-8">No external references found matching the criteria.</p>
+          <div className="bg-surface border border-border p-6 md:p-10 rounded-card text-center mb-10 shadow-quiet">
+            <p className="text-[14px] text-ink-secondary mb-8">No external references found matching the criteria.</p>
             <div className="flex justify-center">
-              <button onClick={handleDiscardResearch} className="bg-graphite text-surface px-8 py-4 rounded-button font-semibold text-[15px] hover:-translate-y-[1px] hover:shadow-soft transition-all shadow-quiet">Continue to Draft</button>
+              <button onClick={handleDiscardResearch} className="bg-graphite text-surface px-8 py-3.5 rounded-button font-semibold text-[14px] hover:-translate-y-[1px] hover:shadow-soft transition-all shadow-quiet">Continue to Draft</button>
             </div>
           </div>
         ) : (
           <div>
-            <div className="space-y-4 mb-16">
+            <div className="space-y-4 mb-12">
               {proposed.map((ref, idx) => {
                 const isSelected = selectedResearchIndices.includes(idx);
                 return (
-                  <label key={idx} className={`flex items-start gap-4 p-6 rounded-card border cursor-pointer transition-all focus-within:ring-2 focus-within:ring-ink/20 focus-within:outline-none ${isSelected ? 'bg-selected border-selected shadow-sm' : 'bg-surface border-border hover:bg-surface-muted shadow-quiet'}`}>
+                  <label key={idx} className={`flex items-start gap-4 p-5 rounded-card border cursor-pointer transition-all focus-within:ring-2 focus-within:ring-ink/20 focus-within:outline-none ${isSelected ? 'bg-selected border-selected shadow-sm' : 'bg-surface border-border hover:bg-surface-muted shadow-quiet'}`}>
                     <input 
                       type="checkbox" 
                       className="sr-only" 
@@ -212,17 +212,17 @@ export const ReviewPage = () => {
                       )}
                     </div>
                     <div>
-                      <p className="font-semibold text-[15px] text-ink mb-1.5">{ref.title}</p>
-                      <p className="text-[14px] text-ink-secondary leading-relaxed mb-3">{ref.snippet}</p>
-                      <a href={ref.url} target="_blank" rel="noreferrer" className="text-[12px] uppercase tracking-widest font-medium text-ink-muted hover:text-ink transition-colors" onClick={(e) => e.stopPropagation()}>Source Link ↗</a>
+                      <p className="font-semibold text-[14px] text-ink mb-1">{ref.title}</p>
+                      <p className="text-[13px] text-ink-secondary leading-relaxed mb-2">{ref.snippet}</p>
+                      <a href={ref.url} target="_blank" rel="noreferrer" className="text-[11px] uppercase tracking-widest font-medium text-ink-muted hover:text-ink transition-colors" onClick={(e) => e.stopPropagation()}>Source Link ↗</a>
                     </div>
                   </label>
                 );
               })}
             </div>
-            <div className="flex flex-col-reverse sm:flex-row gap-4 border-t border-border pt-12">
-              <button onClick={handleDiscardResearch} className="w-full sm:w-1/3 bg-transparent border border-border text-ink-secondary font-sans font-semibold text-[15px] py-4 px-6 rounded-button hover:bg-surface-muted transition-colors flex justify-center items-center">Discard Sources</button>
-              <button onClick={handleApproveResearch} className="w-full sm:w-2/3 bg-graphite text-surface font-sans font-semibold text-[15px] py-4 px-6 rounded-button hover:-translate-y-[1px] hover:shadow-soft transition-all shadow-quiet flex justify-center items-center">Approve & Inject Context</button>
+            <div className="flex flex-col-reverse sm:flex-row gap-4 border-t border-border pt-8">
+              <button onClick={handleDiscardResearch} className="w-full sm:w-1/3 bg-transparent border border-border text-ink-secondary font-sans font-semibold text-[14px] py-3.5 px-6 rounded-button hover:bg-surface-muted transition-colors flex justify-center items-center">Discard Sources</button>
+              <button onClick={handleApproveResearch} className="w-full sm:w-2/3 bg-graphite text-surface font-sans font-semibold text-[14px] py-3.5 px-6 rounded-button hover:-translate-y-[1px] hover:shadow-soft transition-all shadow-quiet flex justify-center items-center">Approve & Inject Context</button>
             </div>
           </div>
         )}
@@ -234,52 +234,51 @@ export const ReviewPage = () => {
   if (graphState.status === 'awaiting_post_approval') {
     const verdict = graphState.verdict || {};
     return (
-      <div className="max-w-3xl mx-auto py-8 md:py-12 w-full">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+      <div className="max-w-3xl mx-auto py-6 md:py-10 w-full">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
           <div>
-            <p className="text-metadata text-ink-muted mb-4">Step 6 / Final Review</p>
-            <h2 className="text-hero text-ink mb-2">The Draft.</h2>
+            <p className="text-metadata text-ink-muted mb-3">Step 6 / Final Review</p>
+            <h2 className="text-hero text-ink mb-1">The Draft.</h2>
           </div>
           <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-[12px] text-ink-muted uppercase tracking-widest font-medium md:border-l border-border md:pl-6 pb-2">
-             <div>Draft <span className="text-ink">#{graphState.iteration || 0}</span></div>
              <div>Craft <span className="text-ink">{verdict.craft_score || 0}/10</span></div>
              <div>Truth <span className="text-ink">{verdict.faithfulness || 0}/10</span></div>
           </div>
         </div>
         
         {verdict.unsupported_claims && verdict.unsupported_claims.length > 0 && (
-          <div className="bg-warning/10 border border-warning/20 p-6 md:p-8 rounded-card mb-12 shadow-sm">
-            <p className="text-[15px] font-semibold text-warning mb-4">Unsupported Claims Detected</p>
+          <div className="bg-warning/10 border border-warning/20 p-5 md:p-6 rounded-card mb-10 shadow-sm">
+            <p className="text-[14px] font-semibold text-warning mb-4">Unsupported Claims Detected</p>
             <ul className="space-y-3">
                {verdict.unsupported_claims.map((claim, idx) => (
-                  <li key={idx} className="text-[14px] text-warning/90 leading-relaxed flex items-start gap-3"><span className="opacity-50 mt-1">•</span><span>{claim}</span></li>
+                  <li key={idx} className="text-[13px] text-warning/90 leading-relaxed flex items-start gap-3"><span className="opacity-50 mt-1">•</span><span>{claim}</span></li>
                ))}
             </ul>
           </div>
         )}
         
-        <div className="mb-16">
+        <div className="mb-12 bg-surface border border-border rounded-card p-6 md:p-10 shadow-quiet focus-within:border-ink/30 focus-within:ring-1 focus-within:ring-ink/10 transition-all">
           <textarea 
-            className="w-full h-[500px] bg-surface border border-border rounded-card p-8 md:p-12 text-[17px] text-ink leading-[1.7] font-sans focus:outline-none focus:border-ink/30 shadow-quiet resize-y transition-colors"
+            className="w-full h-[500px] text-[16px] text-ink leading-[1.7] font-sans focus:outline-none resize-y bg-transparent custom-scrollbar"
             value={draftEdits}
             onChange={e => setDraftEdits(e.target.value)}
           />
         </div>
 
-        <div className="bg-surface border border-border p-8 md:p-10 rounded-card shadow-quiet">
+        <div className="bg-surface border border-border p-6 md:p-8 rounded-card shadow-quiet">
           <p className="text-metadata text-ink-muted mb-4">Request AI Revisions</p>
           <input 
             type="text" 
             placeholder="e.g., 'Make it punchier', 'Fix the ending'"
-            className="w-full bg-surface-muted border border-border rounded-control px-6 py-5 mb-8 text-[15px] text-ink focus:outline-none focus:border-ink/30 transition-colors placeholder:text-ink-muted/70"
+            className="w-full bg-surface-muted border border-border rounded-control px-6 py-5 mb-6 text-[14px] text-ink focus:outline-none focus:border-ink/30 transition-colors placeholder:text-ink-muted/70"
             value={feedbackInput}
             onChange={e => setFeedbackInput(e.target.value)}
           />
           <div className="flex flex-col-reverse sm:flex-row gap-4">
-            <button onClick={handleRevisePost} className="w-full sm:w-1/2 bg-transparent border border-border text-ink-secondary font-sans font-semibold text-[15px] py-4 px-6 rounded-button hover:bg-surface-muted transition-colors flex justify-center items-center">
+            <button onClick={handleRevisePost} className="w-full sm:w-1/2 bg-transparent border border-border text-ink-secondary font-sans font-semibold text-[14px] py-3.5 px-6 rounded-button hover:bg-surface-muted transition-colors flex justify-center items-center">
               Route to AI Repair
             </button>
-            <button onClick={handleApprovePost} className="w-full sm:w-1/2 bg-graphite text-surface font-sans font-semibold text-[15px] py-4 px-6 rounded-button hover:-translate-y-[1px] hover:shadow-soft transition-all flex justify-center items-center shadow-quiet">
+            <button onClick={handleApprovePost} className="w-full sm:w-1/2 bg-graphite text-surface font-sans font-semibold text-[14px] py-3.5 px-6 rounded-button hover:-translate-y-[1px] hover:shadow-soft transition-all flex justify-center items-center shadow-quiet">
               Approve & Publish
             </button>
           </div>

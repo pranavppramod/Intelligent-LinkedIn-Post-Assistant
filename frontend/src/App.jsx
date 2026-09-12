@@ -14,7 +14,7 @@ function AppContent() {
     <div className="min-h-screen flex flex-col">
       {/* Global Header */}
       <header className="h-[76px] flex items-center px-6 md:px-10 max-w-[1320px] w-full mx-auto">
-        <div className="font-editorial text-[22px] tracking-tight">LinkedInForge</div>
+        <div className="font-editorial text-[28px] md:text-[32px] tracking-tight">LinkedInForge</div>
       </header>
 
       {/* Main Content Container */}

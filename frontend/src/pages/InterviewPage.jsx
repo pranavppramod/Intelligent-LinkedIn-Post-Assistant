@@ -84,36 +84,36 @@ export const InterviewPage = () => {
   const progressPercent = totalQuestions > 0 ? Math.min((filledCount / totalQuestions) * 100, 100) : 0;
 
   return (
-    <div className="max-w-3xl mx-auto py-8 md:py-12 w-full">
-      <div className="mb-16">
-        <p className="text-metadata text-ink-muted mb-4">Step 2 / Your Point of View</p>
-        <h2 className="text-hero text-ink mb-8">Let's find<br/>your angle.</h2>
-        <div className="border-b border-border pb-6">
+    <div className="max-w-3xl mx-auto py-6 md:py-10 w-full">
+      <div className="mb-12">
+        <p className="text-metadata text-ink-muted mb-3">Step 2 / Your Point of View</p>
+        <h2 className="text-hero text-ink mb-5">Let's find<br/>your angle.</h2>
+        <div className="border-b border-border pb-4">
           <p className="text-[13px] text-ink-secondary font-medium tracking-wide uppercase">{topic}</p>
         </div>
       </div>
 
-      <div className="flex justify-between items-center mb-20">
+      <div className="flex justify-between items-center mb-16">
         <span className="text-metadata text-ink-muted">{filledCount} OF {totalQuestions} ANSWERED</span>
         <div className="w-32 bg-surface-muted h-1 rounded-full overflow-hidden">
           <div className="bg-ink-muted h-full transition-all" style={{ width: `${progressPercent}%` }}></div>
         </div>
       </div>
 
-      <div className="space-y-32 mb-24">
+      <div className="space-y-20 mb-16">
         {questions.map((q, idx) => (
           <div key={q.id} className="relative group">
             <span className="hidden md:block absolute -left-16 top-2 text-metadata text-ink-muted opacity-40">0{idx + 1}</span>
-            <h3 className="font-editorial text-[32px] md:text-[40px] leading-[1.1] tracking-tight text-ink mb-8">{q.text}</h3>
+            <h3 className="font-editorial text-[28px] md:text-[36px] leading-[1.1] tracking-tight text-ink mb-6">{q.text}</h3>
             
-            <div className="mb-8">
+            <div className="mb-6">
               <p className="text-metadata text-ink-muted mb-2">Why this matters</p>
               <p className="text-[15px] text-ink-secondary leading-relaxed max-w-2xl">{q.why}</p>
             </div>
             
-            <div className="relative">
+            <div className="relative bg-surface rounded-card shadow-quiet border border-border p-5 focus-within:border-ink/30 focus-within:ring-1 focus-within:ring-ink/10 transition-all">
               <textarea
-                className="w-full h-[180px] p-6 bg-surface rounded-card shadow-quiet border border-border focus:outline-none focus:border-ink/30 font-sans text-[17px] text-ink placeholder:text-ink-muted/60 resize-none transition-colors"
+                className="w-full h-[180px] font-sans text-[16px] text-ink placeholder:text-ink-muted/60 resize-none focus:outline-none bg-transparent custom-scrollbar"
                 placeholder={q.placeholder}
                 value={currentAnswers[q.id]?.answer || ''}
                 onChange={(e) => handleTextChange(q.id, e.target.value, q.text)}
@@ -124,23 +124,23 @@ export const InterviewPage = () => {
       </div>
 
       {error && (
-        <div className="bg-error/10 text-error p-4 rounded-control mb-8 text-[15px]">
+        <div className="bg-error/10 text-error p-4 rounded-control mb-8 text-[14px]">
           {error}
         </div>
       )}
 
-      <div className="flex flex-col-reverse sm:flex-row gap-4 border-t border-border pt-12">
+      <div className="flex flex-col-reverse sm:flex-row gap-4 border-t border-border pt-8">
         <button
           onClick={handleSkip}
           disabled={isSubmitting}
-          className="w-full sm:w-1/3 bg-transparent text-ink-secondary font-sans font-semibold text-[15px] py-4 px-6 rounded-button border border-border hover:bg-surface-muted transition-all disabled:opacity-50 flex justify-center items-center"
+          className="w-full sm:w-1/3 bg-transparent text-ink-secondary font-sans font-semibold text-[14px] py-3.5 px-6 rounded-button border border-border hover:bg-surface-muted transition-all disabled:opacity-50 flex justify-center items-center"
         >
           {isSubmitting ? 'Skipping...' : 'Skip to brief'}
         </button>
         <button
           onClick={handleContinue}
           disabled={isSubmitting}
-          className="w-full sm:w-2/3 bg-graphite text-surface font-sans font-semibold text-[15px] py-4 px-6 rounded-button hover:-translate-y-[1px] hover:shadow-soft transition-all disabled:opacity-50 disabled:hover:transform-none flex justify-center items-center shadow-quiet"
+          className="w-full sm:w-2/3 bg-graphite text-surface font-sans font-semibold text-[14px] py-3.5 px-6 rounded-button hover:-translate-y-[1px] hover:shadow-soft transition-all disabled:opacity-50 disabled:hover:transform-none flex justify-center items-center shadow-quiet"
         >
           {isSubmitting ? (
             <>
